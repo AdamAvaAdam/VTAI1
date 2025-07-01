@@ -1,52 +1,157 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-  <meta charset="UTF-8">
-  <title>Trang chủ đào tạo</title>
+  <meta charset="UTF-8" />
+  <title>Trợ Lý AI - Trang Chủ</title>
   <style>
     body {
-      background: #0d0d0d;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      padding: 40px;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      position: relative;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url('image/logo_viettuan.png') center center no-repeat;
+      background-size: 450px;
+      opacity: 0.06;
+      z-index: 0;
+    }
+    h2 {
       text-align: center;
+      font-size: 32px;
+      color: #003366;
+      margin-top: 30px;
     }
-    h1 {
-      color: #00ffff;
-      margin-bottom: 40px;
+    .nav {
+      text-align: center;
+      margin: 20px 0;
+      z-index: 2;
+      position: relative;
     }
-    .course-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-    }
-    .course-item {
-      background: #1a1a1a;
-      padding: 20px 30px;
-      border: 1px solid #00ffff;
-      border-radius: 12px;
+    .nav button {
+      font-size: 18px;
+      padding: 14px 24px;
+      margin: 10px;
+      border: 2px solid #003366;
+      border-radius: 10px;
+      background-color: #fff;
+      color: #003366;
+      font-weight: bold;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       cursor: pointer;
-      transition: 0.2s;
+      transition: all 0.2s ease-in-out;
     }
-    .course-item:hover {
-      background: #00ffff;
-      color: #000;
+    .nav button:hover {
+      background-color: #003366;
+      color: #fff;
+    }
+    .notice-section {
+      text-align: center;
+      margin: 30px 0;
+      position: relative;
+      z-index: 1;
+    }
+    .notice-section h3 {
+      color: #b30059;
+      margin-bottom: 10px;
+    }
+    .notice-list {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+      text-align: left;
+    }
+    .notice-item {
+      margin-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 8px;
+    }
+    .notice-title {
+      font-weight: bold;
+    }
+    .notice-date {
+      font-style: italic;
+      font-size: 14px;
+      color: #777;
+    }
+    .see-more {
+      margin-top: 10px;
+    }
+    .see-more a {
+      padding: 8px 16px;
+      font-size: 14px;
+      border-radius: 6px;
+      text-decoration: none;
+      background-color: #003366;
+      color: #fff;
+      display: inline-block;
+    }
+    #chatbot-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #003366;
+      color: white;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      z-index: 10;
     }
   </style>
 </head>
 <body>
-  <h1>📚 Danh sách Khóa Học</h1>
-  <div class="course-list">
-    <div class="course-item" onclick="openCourse('KH01')">KH01 - Kỹ năng bán hàng</div>
-    <div class="course-item" onclick="openCourse('KH02')">KH02 - Quy trình giao hàng</div>
-    <div class="course-item" onclick="openCourse('KH03')">KH03 - Dịch vụ sau bán</div>
+  <h2>📘 Trợ Lý AI - Trang Chủ</h2>
+  <div class="nav">
+    <button onclick="window.location.href='courses.html'">📚 Đào Tạo</button>
+    <button onclick="window.location.href='products.html'">📦 Thông Tin Hàng Hóa</button>
+    <button onclick="window.location.href='notices.html'">📜 Quy Định - Thông Báo</button>
+    <button onclick="window.location.href='faq.html'">❓ Câu Hỏi Thường Gặp</button>
   </div>
 
+  <div class="notice-section">
+    <h3>📣 Thông báo mới nhất</h3>
+    <div class="notice-list" id="noticeList"></div>
+    <div class="see-more">
+      <a href="notices.html">Xem tất cả thông báo</a>
+    </div>
+  </div>
+
+  <button id="chatbot-button" onclick="alert('Đây là nút gọi trợ lý AI!')">🤖 Trợ Lý AI</button>
+
   <script>
-    function openCourse(courseId) {
-      window.location.href = `viewer.html?course=${courseId}`;
+    const sheetUrl = 'https://opensheet.elk.sh/1rm7GNrbJFOw-P9ynBgM2hOi6aROM_Hj57KwxVrD5OdY/Sheet1';
+
+    async function fetchNotices() {
+      try {
+        const res = await fetch(sheetUrl);
+        const data = await res.json();
+        const container = document.getElementById('noticeList');
+
+        data.reverse().slice(0, 5).forEach(n => {
+          const div = document.createElement('div');
+          div.className = 'notice-item';
+          div.innerHTML = `
+            <div class="notice-title">${n.title} <span class="notice-date">(${n.date})</span></div>
+            <div class="notice-content">${n.content.slice(0, 100)}...</div>
+          `;
+          container.appendChild(div);
+        });
+      } catch (error) {
+        console.error('Lỗi khi tải thông báo:', error);
+      }
     }
+
+    fetchNotices();
   </script>
 </body>
 </html>

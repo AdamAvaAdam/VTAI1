@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thông Báo - Trợ Lý AI</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+    }
+    h2 {
+      text-align: center;
+      color: #003366;
+    }
+    .notice {
+      margin-bottom: 30px;
+      border-bottom: 1px solid #ddd;
+      padding-bottom: 20px;
+    }
+    .notice-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #000;
+    }
+    .notice-date {
+      font-style: italic;
+      font-size: 14px;
+      color: #777;
+    }
+    .notice-content {
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📣 Danh Sách Thông Báo</h2>
+    <div id="noticeContainer"></div>
+  </div>
+
+  <script>
+    const sheetUrl = 'https://opensheet.elk.sh/1rm7GNrbJFOw-P9ynBgM2hOi6aROM_Hj57KwxVrD5OdY/Sheet1';
+
+    async function fetchNotices() {
+      try {
+        const res = await fetch(sheetUrl);
+        const data = await res.json();
+        const container = document.getElementById('noticeContainer');
+
+        data.reverse().forEach(n => {
+          const div = document.createElement('div');
+          div.className = 'notice';
+          div.innerHTML = `
+            <div class="notice-title">${n.title} <span class="notice-date">(${n.date})</span></div>
+            <div class="notice-content">${n.content}</div>
+          `;
+          container.appendChild(div);
+        });
+      } catch (error) {
+        console.error('Lỗi khi tải thông báo:', error);
+      }
+    }
+
+    fetchNotices();
+  </script>
+</body>
+</html>
