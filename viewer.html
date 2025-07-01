@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Đào tạo - Trình chiếu slide</title>
+  <style>
+    body {
+      background: #111;
+      color: white;
+      text-align: center;
+      font-family: Arial;
+      padding: 20px;
+    }
+    img {
+      max-width: 90%;
+      max-height: 80vh;
+      border-radius: 10px;
+      box-shadow: 0 0 15px #0ff;
+    }
+    button {
+      padding: 10px 20px;
+      margin: 20px 10px;
+      font-size: 16px;
+      background: #222;
+      color: #0ff;
+      border: 1px solid #0ff;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #counter {
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h2>📘 KHÓA HỌC: <span id="courseTitle"></span></h2>
+  <img id="slide" src="" alt="Slide học" />
+  <div>
+    <button onclick="prevSlide()">← Trước</button>
+    <button onclick="nextSlide()">Tiếp →</button>
+  </div>
+  <div id="counter">Trang 1 / N</div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const course = urlParams.get('course') || 'KH01';
+    const totalSlides = 5; // 🔧 Sửa theo số ảnh bạn có
+
+    let current = 1;
+    const img = document.getElementById("slide");
+    const counter = document.getElementById("counter");
+    const title = document.getElementById("courseTitle");
+    title.innerText = course;
+
+    function updateSlide() {
+      img.src = `${course}/${current}.jpg`;
+      counter.innerText = `Trang ${current} / ${totalSlides}`;
+    }
+
+    function nextSlide() {
+      if (current < totalSlides) {
+        current++;
+        updateSlide();
+      }
+    }
+
+    function prevSlide() {
+      if (current > 1) {
+        current--;
+        updateSlide();
+      }
+    }
+
+    updateSlide();
+  </script>
+</body>
+</html>

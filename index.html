@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Trang chủ đào tạo</title>
+  <style>
+    body {
+      background: #0d0d0d;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      text-align: center;
+    }
+    h1 {
+      color: #00ffff;
+      margin-bottom: 40px;
+    }
+    .course-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .course-item {
+      background: #1a1a1a;
+      padding: 20px 30px;
+      border: 1px solid #00ffff;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .course-item:hover {
+      background: #00ffff;
+      color: #000;
+    }
+  </style>
+</head>
+<body>
+  <h1>📚 Danh sách Khóa Học</h1>
+  <div class="course-list">
+    <div class="course-item" onclick="openCourse('KH01')">KH01 - Kỹ năng bán hàng</div>
+    <div class="course-item" onclick="openCourse('KH02')">KH02 - Quy trình giao hàng</div>
+    <div class="course-item" onclick="openCourse('KH03')">KH03 - Dịch vụ sau bán</div>
+  </div>
+
+  <script>
+    function openCourse(courseId) {
+      window.location.href = `viewer.html?course=${courseId}`;
+    }
+  </script>
+</body>
+</html>
