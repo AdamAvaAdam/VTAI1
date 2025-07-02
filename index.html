@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Trợ Lý AI - Trang Chủ</title>
+  <title>KHO THÔNG TIN VIỆT TUẤN</title>
   <style>
     body {
       margin: 0;
@@ -59,27 +59,47 @@
       color: #b30059;
       margin-bottom: 10px;
     }
-    .notice-list {
-      max-width: 800px;
+    .notice-list-card {
+      max-width: 900px;
       margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .notice-card {
       background: #fff;
       border-radius: 10px;
-      padding: 10px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-      text-align: left;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      padding: 16px 20px;
+      transition: all 0.3s ease;
+      border: 1px solid #eee;
     }
-    .notice-item {
-      margin-bottom: 15px;
-      border-bottom: 1px solid #eee;
-      padding-bottom: 8px;
+    .notice-card:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
-    .notice-title {
+    .notice-card-title {
       font-weight: bold;
+      color: #003366;
+      font-size: 18px;
+      margin-bottom: 4px;
     }
-    .notice-date {
-      font-style: italic;
+    .notice-card-date {
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 10px;
+    }
+    .notice-card-content {
+      font-size: 15px;
+      color: #333;
+    }
+    .notice-card-more {
+      margin-top: 10px;
+    }
+    .notice-card-more a {
       font-size: 14px;
-      color: #777;
+      color: #0077cc;
+      text-decoration: none;
+      font-weight: bold;
     }
     .see-more {
       margin-top: 10px;
@@ -93,65 +113,218 @@
       color: #fff;
       display: inline-block;
     }
-    #chatbot-button {
+
+    /* Modal */
+    #modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.6);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 600px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+    .modal-close {
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+      color: #888;
+    }
+
+    #ai-button {
       position: fixed;
       bottom: 20px;
       right: 20px;
-      background-color: #003366;
-      color: white;
+      background-color: #005580;
+      color: #fff;
       padding: 12px 20px;
-      font-size: 16px;
-      border-radius: 50px;
-      border: none;
+      border-radius: 30px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      z-index: 10;
+      z-index: 999;
     }
+    #chat-container {
+      display: none;
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      width: 300px;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 10px;
+      z-index: 1000;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    #chat-container textarea {
+      width: 100%;
+      height: 60px;
+      resize: none;
+      padding: 6px;
+    }
+    #chat-container button {
+      margin-top: 6px;
+      width: 100%;
+      background: #005580;
+      color: white;
+      border: none;
+      padding: 8px;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    #ai-response {
+      margin-top: 10px;
+      max-height: 200px;
+      overflow-y: auto;
+      font-size: 14px;
+    }
+#modal {
+  transition: opacity 0.3s ease;
+}
+
+#modal.show .modal-content {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
   </style>
 </head>
 <body>
-  <h2>📘 Trợ Lý AI - Trang Chủ</h2>
+  <h2>
+  <img src="image/logo_viettuan.png" alt="Logo Việt Tuấn" style="height: 36px; vertical-align: middle; margin-right: 10px;">
+  KHO THÔNG TIN VIỆT TUẤN
+</h2>
   <div class="nav">
-    <button onclick="window.location.href='courses.html'">📚 Đào Tạo</button>
-    <button onclick="window.location.href='products.html'">📦 Thông Tin Hàng Hóa</button>
-    <button onclick="window.location.href='notices.html'">📜 Quy Định - Thông Báo</button>
-    <button onclick="window.location.href='faq.html'">❓ Câu Hỏi Thường Gặp</button>
+    <button onclick="window.location.href='courses.html'">📚 ĐÀO TẠO</button>
+    <button onclick="window.location.href='products.html'">📦 THÔNG TIN HÀNG HÓA</button>
+    <button onclick="window.location.href='rules.html'">📜 NỘI QUY</button>
+    <button onclick="window.location.href='faq.html'">❓ CÂU HỎI THƯỜNG GẶP</button>
   </div>
 
   <div class="notice-section">
-    <h3>📣 Thông báo mới nhất</h3>
-    <div class="notice-list" id="noticeList"></div>
+    <h3 class="section-title">📢 THÔNG BÁO</h3>
+    <div class="notice-list-card" id="noticeList"></div>
     <div class="see-more">
       <a href="notices.html">Xem tất cả thông báo</a>
     </div>
   </div>
 
-  <button id="chatbot-button" onclick="alert('Đây là nút gọi trợ lý AI!')">🤖 Trợ Lý AI</button>
+  <!-- Modal hiển thị thông báo -->
+  <div id="modal">
+    <div class="modal-content">
+      <span class="modal-close" onclick="closeModal()">&times;</span>
+      <h3 id="modalTitle"></h3>
+      <p id="modalContent"></p>
+    </div>
+  </div>
 
-  <script>
-    const sheetUrl = 'https://opensheet.elk.sh/1rm7GNrbJFOw-P9ynBgM2hOi6aROM_Hj57KwxVrD5OdY/Sheet1';
+  <div id="ai-button" onclick="toggleChat()">🤖 Trợ lý AI</div>
+  <div id="chat-container">
+    <textarea id="ai-question" placeholder="Nhập câu hỏi..."></textarea>
+    <button onclick="askAI()">Gửi</button>
+    <div id="ai-response"></div>
+  </div>
 
-    async function fetchNotices() {
-      try {
-        const res = await fetch(sheetUrl);
-        const data = await res.json();
-        const container = document.getElementById('noticeList');
+ <script>
+  const sheetUrl = 'https://opensheet.elk.sh/1rm7GNrbJFOw-P9ynBgM2hOi6aROM_Hj57KwxVrD5OdY/Sheet1';
+  const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbw2f8XLjfxzYplpdghqTym3pa8lINMQto9XhaAIBhJ_NRI-h-nBzCiB_IIaZYPnEXgjRg/exec';
 
-        data.reverse().slice(0, 5).forEach(n => {
-          const div = document.createElement('div');
-          div.className = 'notice-item';
-          div.innerHTML = `
-            <div class="notice-title">${n.title} <span class="notice-date">(${n.date})</span></div>
-            <div class="notice-content">${n.content.slice(0, 100)}...</div>
-          `;
-          container.appendChild(div);
-        });
-      } catch (error) {
-        console.error('Lỗi khi tải thông báo:', error);
-      }
+  async function fetchNotices() {
+    try {
+      const res = await fetch(sheetUrl);
+      const data = await res.json();
+      const container = document.getElementById('noticeList');
+
+      data.reverse().slice(0, 4).forEach(n => {
+        const card = document.createElement('div');
+        card.className = 'notice-card';
+        card.innerHTML = `
+  <div class="notice-card-title">${n.title}</div>
+  <div class="notice-card-date">${n.date}</div>
+  <div class="notice-card-content">${n.content.slice(0, 100)}...</div>
+  <div class="notice-card-more">
+    <a href="#" onclick="openModal('${n.title.replace(/'/g, "\\'")}', \`${n.content.replace(/`/g, '\\`')}\`); event.stopPropagation();">Xem thêm</a>
+  </div>
+`;
+
+        card.onclick = () => openModal(n.title, n.content);
+        container.appendChild(card);
+      });
+    } catch (err) {
+      console.error('Lỗi khi tải thông báo:', err);
     }
+  }
 
-    fetchNotices();
-  </script>
+  function openModal(title, content) {
+    document.getElementById('modalTitle').innerText = title;
+    document.getElementById('modalContent').innerText = content;
+    const modal = document.getElementById('modal');
+    modal.style.display = 'block';
+    modal.classList.add('show');
+  }
+
+  function closeModal() {
+    const modal = document.getElementById('modal');
+    modal.classList.remove('show');
+    setTimeout(() => modal.style.display = 'none', 300);
+  }
+
+  // Đóng khi click ngoài modal
+  window.onclick = function (event) {
+    const modal = document.getElementById('modal');
+    if (event.target === modal) {
+      closeModal();
+    }
+  }
+
+  function toggleChat() {
+    const chat = document.getElementById("chat-container");
+    chat.style.display = chat.style.display === "none" ? "block" : "none";
+  }
+
+  function askAI() {
+    const question = document.getElementById("ai-question").value.trim();
+    if (!question) return;
+    document.getElementById("ai-response").innerHTML = "⏳ Đang trả lời...";
+    fetch(WEB_APP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question })
+    })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("ai-response").innerHTML = data.answer.replace(/\n/g, "<br>");
+    })
+    .catch(err => {
+      document.getElementById("ai-response").innerHTML = "❌ Lỗi khi gọi trợ lý AI.";
+      console.error(err);
+    });
+  }
+
+  document.getElementById("ai-question").addEventListener("keydown", function (e) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      askAI();
+    }
+  });
+
+  fetchNotices();
+</script>
+
 </body>
 </html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Câu Hỏi Thường Gặp</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #003366;
+      margin-bottom: 10px;
+    }
+
+    .search-box {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .search-box input {
+      width: 80%;
+      max-width: 500px;
+      padding: 10px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+
+    .faq-container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .faq-item {
+      margin-bottom: 25px;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+    }
+
+    .faq-question {
+      font-size: 18px;
+      font-weight: bold;
+      color: #005580;
+    }
+
+    .faq-answer {
+      margin-top: 8px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <h2>❓ Câu Hỏi Thường Gặp</h2>
+
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="🔍 Tìm kiếm câu hỏi hoặc nội dung..." onkeyup="filterFAQs()" />
+  </div>
+
+  <div class="faq-container" id="faqList">Đang tải dữ liệu...</div>
+
+  <script>
+    let allFAQs = [];
+
+    const faqSheetUrl = 'https://opensheet.elk.sh/1rm7GNrbJFOw-P9ynBgM2hOi6aROM_Hj57KwxVrD5OdY/FAQs';
+
+    async function loadFAQs() {
+      try {
+        const res = await fetch(faqSheetUrl);
+        const data = await res.json();
+        allFAQs = data;
+        renderFAQs(allFAQs);
+      } catch (error) {
+        document.getElementById("faqList").innerText = "Không thể tải dữ liệu câu hỏi thường gặp.";
+        console.error("Lỗi khi tải FAQ:", error);
+      }
+    }
+
+    function renderFAQs(faqs) {
+      const container = document.getElementById("faqList");
+      container.innerHTML = "";
+
+      if (faqs.length === 0) {
+        container.innerHTML = "<p>Không tìm thấy kết quả phù hợp.</p>";
+        return;
+      }
+
+      faqs.forEach(faq => {
+        const item = document.createElement("div");
+        item.className = "faq-item";
+        item.innerHTML = `
+          <div class="faq-question">${faq.question}</div>
+          <div class="faq-answer">${faq.answer}</div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    function filterFAQs() {
+      const keyword = document.getElementById("searchInput").value.toLowerCase();
+      const filtered = allFAQs.filter(faq =>
+        faq.question.toLowerCase().includes(keyword) ||
+        faq.answer.toLowerCase().includes(keyword)
+      );
+      renderFAQs(filtered);
+    }
+
+    loadFAQs();
+  </script>
+</body>
+</html>

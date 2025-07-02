@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Nội Quy Công Ty</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #003366;
+      margin-bottom: 20px;
+    }
+
+    .rules-content {
+      font-size: 16px;
+      line-height: 1.6;
+      white-space: pre-line;
+    }
+
+    .back-button {
+      display: block;
+      margin: 20px auto 0;
+      text-align: center;
+    }
+
+    .back-button a {
+      text-decoration: none;
+      background-color: #003366;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .back-button a:hover {
+      background-color: #005599;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>📋 Nội Quy Công Ty</h2>
+    <div class="rules-content" id="rulesContent">⏳ Đang tải nội dung...</div>
+    <div class="back-button">
+      <a href="index.html">← Quay lại Trang Chủ</a>
+    </div>
+  </div>
+
+  <script>
+    const DOC_API_URL = 'https://script.google.com/macros/s/AKfycbxGPRC_hCxaqcjm0QjmPa2Q8N6ui8Fi5GqZupjqUn1FQtP9ibm9NpjJCA-jnk9O3Uul/exec'; // Thay bằng Web App URL của bạn
+
+    async function fetchRulesFromDoc() {
+      try {
+        const res = await fetch(DOC_API_URL);
+        const data = await res.json();
+        document.getElementById('rulesContent').innerText = data.content;
+      } catch (err) {
+        document.getElementById('rulesContent').innerText = '❌ Không thể tải nội dung nội quy.';
+        console.error('Lỗi khi tải:', err);
+      }
+    }
+
+    fetchRulesFromDoc();
+  </script>
+</body>
+</html>
