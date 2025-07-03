@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <title>Thông Tin Sản Phẩm</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f8fafc; margin: 0; padding: 30px; }
+    h2 { text-align: center; color: #0b2852; margin-bottom: 8px; letter-spacing: .5px;}
+    #searchBox { width: 100%; max-width: 480px; margin: 16px auto 18px; display: block; padding: 10px; font-size: 16px; border: 1.5px solid #c2c2c2; border-radius: 10px; }
+    .categories { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-bottom: 32px; }
+    .category-btn {
+      padding: 8px 18px;
+      font-size: 15.5px;
+      background: #fff;
+      border: 2px solid #1064a3;
+      border-radius: 24px;
+      color: #1064a3;
+      font-weight: 600;
+      cursor: pointer;
+      outline: none;
+      transition: 0.16s;
+      box-shadow: 0 1px 4px rgba(16, 100, 163, 0.05);
+      letter-spacing: .2px;
+    }
+    .category-btn.active, .category-btn:hover { background: #1064a3; color: #fff; }
+    .product-list {
+      max-width: 730px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 26px 24px;
+      border-radius: 16px;
+      box-shadow: 0 6px 32px rgba(17,62,122,0.09);
+    }
+    .product { display: flex; gap: 16px; border-bottom: 1.5px solid #f1f3f7; padding: 18px 0 16px 0; align-items: flex-start;}
+    .product:last-child { border-bottom: none; }
+    .product-img { width: 110px; height: 85px; object-fit: contain; border-radius: 7px; background: #eef3f8; flex-shrink: 0;}
+    .product-info-wrap { flex: 1; }
+    .product-title { font-size: 19.5px; font-weight: bold; color: #1064a3; margin-bottom: 1px;}
+    .product-model { color: #444; font-size: 15px; margin-bottom: 8px; }
+    .product-model b { color: #111; font-weight: 600;}
+    .product-desc { margin-top: 0; color: #283246; line-height: 1.65; font-size: 15.1px;}
+    @media (max-width: 800px) {
+      .product-list { max-width: 99vw; padding: 12px 2vw; }
+      .product { flex-direction: column; align-items: stretch;}
+      .product-img { margin-bottom: 7px; }
+    }
+.categories {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  max-width: 670px;
+  margin: 0 auto 32px auto;
+}
+body::before {
+  content: "";
+  position: fixed;
+  z-index: 0;
+  left: 0; top: 0; right: 0; bottom: 0;
+  width: 100vw; height: 100vh;
+  background: url('image/logo_viettuan.png') no-repeat center center;
+  background-size: 430px auto;
+  opacity: 0.05;
+  pointer-events: none;
+ 
+}
+body { position: relative; z-index: 1; }
+
+  </style>
+</head>
+<body>
+  <h2>📦 Thông Tin Sản Phẩm</h2>
+  <input type="text" id="searchBox" placeholder="🔍 Tìm kiếm sản phẩm...">
+  <div class="categories" id="categories">Đang tải danh mục...</div>
+  <div class="product-list" id="productList">Đang tải dữ liệu...</div>
+  <script>
+    const API_URL = 'https://opensheet.elk.sh/1rm7GNrbJFOw-P9ynBgM2hOi6aROM_Hj57KwxVrD5OdY/Products';
+    let allProducts = [];
+    let allTypes = [];
+    let selectedType = 'ALL'; // Mặc định xem tất cả
+
+    async function loadProducts() {
+      document.getElementById('categories').innerText = 'Đang tải danh mục...';
+      document.getElementById('productList').innerText = 'Đang tải dữ liệu...';
+      try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        allProducts = data.filter(p => p['Type'] && p['Name']);
+        allTypes = [...new Set(allProducts.map(p => p['Type']).filter(Boolean))];
+        renderCategories();
+        renderProducts();
+      } catch {
+        document.getElementById('categories').innerText = 'Không thể tải danh mục!';
+        document.getElementById('productList').innerText = 'Không thể tải dữ liệu!';
+      }
+    }
+
+    function renderCategories() {
+      const wrap = document.getElementById('categories');
+      wrap.innerHTML = '';
+      // Nút "TẤT CẢ"
+      const btnAll = document.createElement('button');
+      btnAll.className = 'category-btn' + (selectedType === 'ALL' ? ' active' : '');
+      btnAll.innerText = 'TẤT CẢ';
+      btnAll.onclick = () => {
+        selectedType = 'ALL';
+        renderCategories();
+        renderProducts();
+        document.getElementById('searchBox').value = '';
+      };
+      wrap.appendChild(btnAll);
+
+      // Các danh mục còn lại
+      allTypes.forEach(type => {
+        const btn = document.createElement('button');
+        btn.className = 'category-btn' + (type === selectedType ? ' active' : '');
+        btn.innerText = type;
+        btn.onclick = () => {
+          if (selectedType !== type) {
+            selectedType = type;
+            renderCategories();
+            renderProducts();
+            document.getElementById('searchBox').value = '';
+          }
+        };
+        wrap.appendChild(btn);
+      });
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('productList');
+      let keyword = document.getElementById('searchBox').value.toLowerCase();
+      let products = allProducts.filter(p =>
+        (selectedType === 'ALL' || p['Type'] === selectedType) &&
+        (
+          (p['Name'] || '').toLowerCase().includes(keyword) ||
+          (p['Model'] || '').toLowerCase().includes(keyword) ||
+          (p['Description'] || '').toLowerCase().includes(keyword)
+        )
+      );
+      if (!products.length) {
+        container.innerHTML = '<p>Không tìm thấy sản phẩm nào.</p>';
+        return;
+      }
+      container.innerHTML = '';
+      products.forEach(p => {
+        container.innerHTML += `
+          <div class="product">
+            ${p['Link Image'] ? `<img class="product-img" src="${p['Link Image']}" alt="">` : ''}
+            <div class="product-info-wrap">
+              <div class="product-title">${p['Name'] || ''}</div>
+              <div class="product-model"><b>Model:</b> ${p['Model'] || ''}</div>
+              <div class="product-desc">${p['Description'] || ''}</div>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    document.getElementById('searchBox').addEventListener('input', renderProducts);
+
+    loadProducts();
+  </script>
+</body>
+</html>
