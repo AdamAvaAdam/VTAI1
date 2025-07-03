@@ -1,121 +1,65 @@
+
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <title>Trung Tâm Đào Tạo</title>
+  <title>Chọn khóa học</title>
   <style>
     body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
       margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #ffffff;
-      color: #000;
-      position: relative;
-      z-index: 1;
+      padding: 20px;
     }
-
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background: url('image/logo_viettuan.png') center center no-repeat;
-      background-size: 400px;
-      opacity: 0.06;
-      z-index: 0;
-    }
-
     h2 {
-      font-size: 36px;
-      color: #005580;
       text-align: center;
-      margin-top: 30px;
-      position: relative;
-      z-index: 1;
+      color: #003366;
+      font-size: 28px;
     }
-
-    .section-title {
-      font-size: 24px;
-      text-align: center;
-      color: #333;
-      margin-bottom: 20px;
-      z-index: 1;
-      position: relative;
-    }
-
-    .section {
-      text-align: center;
-      margin: 40px 0;
-      position: relative;
-      z-index: 1;
-    }
-
     .course-list {
+      max-width: 800px;
+      margin: 30px auto;
       display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
+      flex-direction: column;
+      gap: 12px;
     }
-
-    .button {
-      font-size: 20px;
-      padding: 14px 28px;
-      background-color: #ffffff;
-      color: #005580;
+    .course-btn {
+      padding: 14px;
+      font-size: 18px;
       border: 2px solid #005580;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: all 0.25s ease-in-out;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      font-weight: 600;
-      z-index: 1;
-    }
-
-    .button:hover {
-      background-color: #005580;
-      color: #fff;
-    }
-
-    .completed::after {
-      content: " ✅";
-      margin-left: 6px;
-      color: #00aa00;
+      border-radius: 8px;
+      background-color: #fff;
+      color: #005580;
       font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+      text-align: left;
+    }
+    .course-btn:hover {
+      background-color: #005580;
+      color: white;
     }
   </style>
 </head>
 <body>
-  <h2>📘 Trung Tâm Đào Tạo</h2>
-  <div class="container">
-    <div class="section">
-      <div class="section-title">📖 Bài học</div>
-      <div class="course-list">
-        <button class="button" onclick="location.href='viewer.html?course=KH01'" id="lesson-KH01">KH01 - Bán hàng cơ bản</button>
-        <button class="button" onclick="location.href='viewer.html?course=KH02'" id="lesson-KH02">KH02 - Quy trình bán hàng</button>
-        <button class="button" onclick="location.href='viewer.html?course=KH03'" id="lesson-KH03">KH03 - Chính sách đại lý</button>
-      </div>
-    </div>
-
-    <div class="section">
-      <div class="section-title">📝 Bài kiểm tra</div>
-      <div class="course-list">
-        <button class="button" onclick="location.href='quiz.html?course=KH01'" id="quiz-KH01">KH01 - Quiz</button>
-        <button class="button" onclick="location.href='quiz.html?course=KH02'" id="quiz-KH02">KH02 - Quiz</button>
-        <button class="button" onclick="location.href='quiz.html?course=KH03'" id="quiz-KH03">KH03 - Quiz</button>
-      </div>
-    </div>
-  </div>
+  <h2>📚 Danh sách Khóa học</h2>
+  <div class="course-list" id="courseList"></div>
 
   <script>
-    const completedLessons = ['KH01'];
-    const completedQuizzes = ['KH01'];
-
-    completedLessons.forEach(id => {
-      document.getElementById(`lesson-${id}`)?.classList.add('completed');
-    });
-
-    completedQuizzes.forEach(id => {
-      document.getElementById(`quiz-${id}`)?.classList.add('completed');
-    });
+    const sheetUrl = "https://opensheet.elk.sh/1rm7GNrbJFOw-P9ynBgM2hOi6aROM_Hj57KwxVrD5OdY/Courses";
+    async function loadCourses() {
+      const res = await fetch(sheetUrl);
+      const data = await res.json();
+      const container = document.getElementById("courseList");
+      data.forEach(course => {
+        const btn = document.createElement("button");
+        btn.className = "course-btn";
+        btn.textContent = `${course.id} - ${course.title}`;
+        btn.onclick = () => window.location.href = `viewer.html?course=${course.id}`;
+        container.appendChild(btn);
+      });
+    }
+    loadCourses();
   </script>
 </body>
 </html>

@@ -1,79 +1,105 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Slide Học</title>
+  <title>Trình xem Khóa học</title>
   <style>
     body {
-      background-color: #111;
-      color: #fff;
       font-family: Arial, sans-serif;
+      margin: 0;
+      background: #f4f4f4;
       text-align: center;
-      padding: 20px;
     }
-    img {
-      max-width: 90%;
-      max-height: 80vh;
-      box-shadow: 0 0 15px #0ff;
-      border-radius: 8px;
+    h2 {
+      margin: 20px 0;
+      color: #003366;
+    }
+    .slide {
+      margin-top: 10px;
+    }
+
+   img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  background: white;
+}
+    .nav {
+      margin: 20px;
     }
     button {
       padding: 10px 20px;
-      margin: 10px;
+      margin: 0 10px;
       font-size: 16px;
-      background-color: #111;
-      border: 1px solid #0ff;
-      border-radius: 8px;
-      color: #0ff;
+      background-color: #005580;
+      color: white;
+      border: none;
+      border-radius: 6px;
       cursor: pointer;
     }
     button:hover {
-      background-color: #0ff;
-      color: #000;
+      background-color: #003f4e;
     }
   </style>
 </head>
 <body>
-  <h2>📘 KHÓA HỌC: <span id="course-name">KHXX</span></h2>
-  <img id="slide" src="" alt="Slide học" />
-  <div>
-    <button onclick="prev()">← Trước</button>
-    <button onclick="next()">Tiếp →</button>
+  <h2 id="courseTitle">Đang tải...</h2>
+  <div class="slide">
+    <img id="slideImage" src="" alt="Trang học" />
   </div>
-  <p>Trang <span id="page-num">1</span> / <span id="total-pages">1</span></p>
+  <div class="nav">
+    <button onclick="prevPage()">⬅️ Trước</button>
+    <span id="pageInfo">1 / ?</span>
+    <button onclick="nextPage()">Tiếp ➡️</button>
+  </div>
 
   <script>
-    const urlParams = new URLSearchParams(window.location.search);
-    const course = urlParams.get("course") || "KH01";
-    document.getElementById("course-name").innerText = course;
+    const courseId = new URLSearchParams(window.location.search).get("course") || "KH01";
+    const sheetUrl = 'https://opensheet.elk.sh/1rm7GNrbJFOw-P9ynBgM2hOi6aROM_Hj57KwxVrD5OdY/Courses';
 
-    let current = 1;
-    const total = 24; // Số lượng trang ảnh (có thể thay đổi)
-    document.getElementById("total-pages").innerText = total;
+    let pages = 1;
+    let title = '';
+    let currentPage = 1;
+
+    async function loadCourseData() {
+      const res = await fetch(sheetUrl);
+      const data = await res.json();
+      const course = data.find(c => c.id === courseId);
+      if (course) {
+        title = course.title;
+        pages = parseInt(course.pages);
+        document.getElementById("courseTitle").innerText = `${courseId} - ${title}`;
+        updateSlide();
+      } else {
+        document.getElementById("courseTitle").innerText = "Không tìm thấy khóa học!";
+      }
+    }
 
     function updateSlide() {
-      const img = document.getElementById("slide");
-      img.src = `${course}/${current}.jpg`;
-      document.getElementById("page-num").innerText = current;
-    }
+  document.getElementById("slideImage").src = `${courseId}/${currentPage}.jpg`;
+  document.getElementById("pageInfo").innerText = `${currentPage} / ${pages}`;
+}
 
-    function next() {
-      if (current < total) {
-        current++;
+
+    function nextPage() {
+      if (currentPage < pages) {
+        currentPage++;
         updateSlide();
       }
     }
 
-    function prev() {
-      if (current > 1) {
-        current--;
+    function prevPage() {
+      if (currentPage > 1) {
+        currentPage--;
         updateSlide();
       }
     }
 
-    // Tải ảnh đầu tiên
-    updateSlide();
+    loadCourseData();
   </script>
 </body>
 </html>
