@@ -48,6 +48,17 @@
     .notice-content {
       white-space: pre-line;
     }
+body::before {
+  content: "";
+  position: fixed;
+  z-index: 0;
+  left: 0; top: 0; right: 0; bottom: 0;
+  width: 100vw; height: 100vh;
+  background: url('image/logo_viettuan.png') no-repeat center center;
+  background-size: 430px auto;
+  opacity: 0.03;
+  pointer-events: none;
+ 
   </style>
 </head>
 <body>
