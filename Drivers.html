@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách lái xe - Việt Tuấn</title>
+  <style>
+    body { font-family: 'Segoe UI', sans-serif; background: #f6f9fa; }
+    .container { max-width: 1200px; margin: 38px auto; background: #fff; border-radius: 14px; padding: 36px 42px 34px; box-shadow: 0 6px 24px #dde3eb;}
+    h1 { text-align: center; color: #003366; margin-bottom: 28px;}
+    .search-box { text-align: center; margin-bottom: 30px;}
+    .search-box input { width: 350px; padding: 10px 13px; font-size: 17px; border-radius: 8px; border: 1px solid #aaa;}
+    .drivers { display: flex; flex-wrap: wrap; gap: 28px; justify-content: center;}
+    .driver-card {
+      background: #f2f7fe; border-radius: 16px; box-shadow: 0 2px 10px #d1e2fa40;
+      width: 240px; height: 140px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      font-size: 1.1rem; font-weight: bold; color: #003366; cursor: pointer; position: relative;
+      transition: box-shadow 0.18s, background 0.18s;
+      text-align: center;
+      margin-bottom: 0;
+    }
+    .driver-card:hover { box-shadow: 0 8px 28px #bdd7f6bb; background: #e8f1fd;}
+    .timeline-modal-bg {
+      display: none; position: fixed; left:0; top:0; width: 100vw; height: 100vh;
+      background: rgba(30,44,77,0.18); z-index: 9998;
+    }
+    .timeline-modal-bg.show { display: block;}
+    .timeline-modal {
+      position: fixed; left: 50%; top: 50%; transform: translate(-50%,-50%);
+      background: #fff; min-width: 380px; max-width: 96vw; min-height: 180px; border-radius: 18px;
+      box-shadow: 0 12px 60px #00336624; padding: 26px 36px 18px; z-index: 9999; animation: fadeIn 0.21s;
+    }
+    @keyframes fadeIn { from{transform:translate(-50%,-42%) scale(0.98); opacity: 0.2;} }
+    .timeline-modal h2 { margin-top: 0; color: #005580; }
+    .close-modal {
+      position: absolute; top: 13px; right: 24px; font-size: 2.3rem; color: #888; cursor: pointer;
+      font-weight: 200; line-height: 1;
+    }
+    .timeline-table-wrap {
+  max-height: 350px; /* hoặc cao hơn nếu bạn thích */
+  overflow-y: auto;
+  overflow-x: auto;
+  margin-top: 8px;
+  border-radius: 8px;
+  box-shadow: 0 1px 8px #dde3eb22;
+}
+.timeline-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 400px; /* ép có scroll nếu nhiều cột */
+}
+
+    .timeline-table th, .timeline-table td { padding: 7px 11px; border-bottom: 1px solid #e5e7ea; text-align: center; }
+    .timeline-table th { background: #e7f5ff; color: #036; }
+    .timeline-table td { color: #20304a; }
+    .timeline-table tr:hover td { background: #f0f6ff; }
+    @media (max-width: 700px) {
+      .container { padding: 5px;}
+      .drivers { gap: 14px;}
+      .driver-card { width: 98vw; min-width: 0; }
+      .timeline-modal { min-width: 0; padding: 10px 4px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>DANH SÁCH LÁI XE</h1>
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Tìm lái xe..." onkeyup="renderCards()">
+    </div>
+    <div class="drivers" id="drivers"></div>
+  </div>
+  <div class="timeline-modal-bg" id="timelineBg" onclick="hideModal()">
+    <div class="timeline-modal" id="timelineModal" onclick="event.stopPropagation()">
+      <span class="close-modal" onclick="hideModal()">&times;</span>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+<script>
+const SHEET_API = 'https://opensheet.elk.sh/1rm7GNrbJFOw-P9ynBgM2hOi6aROM_Hj57KwxVrD5OdY/LXVT';
+let driverMap = {}, allDrivers = [];
+
+function groupDrivers(data) {
+  const map = {};
+  data.forEach(row => {
+    let name = row["Tên"] || row["Tên lx"] || "Không rõ";
+    if (!map[name]) map[name] = [];
+    map[name].push(row);
+  });
+  return map;
+}
+function renderCards() {
+  const kw = document.getElementById('searchInput').value.trim().toLowerCase();
+  const wrap = document.getElementById('drivers');
+  wrap.innerHTML = '';
+  Object.keys(driverMap).forEach(name => {
+    if (kw && !name.toLowerCase().includes(kw)) return;
+    const info = driverMap[name][0];
+    wrap.innerHTML += `
+      <div class="driver-card" onclick="showTimeline('${encodeURIComponent(name)}')">
+        <span style="font-size:1.28rem">${name}</span>
+        <div style="font-size:0.98rem; color:#666; font-weight:400; margin-top:3px;">
+          Ngày bắt đầu: <b>${info["Ngày bắt đầu làm việc"] || ""}</b>
+        </div>
+        <div style="font-size:0.95rem; font-weight:400; color:#576777;margin-top:5px;">
+          ${driverMap[name].length} mốc timeline
+        </div>
+      </div>
+    `;
+  });
+}
+
+function showTimeline(name) {
+  name = decodeURIComponent(name);
+  const data = driverMap[name];
+  const info = data[0];
+  let html = `<h2>${name}</h2>
+  <div class="timeline-table-wrap">
+    <table class="timeline-table">
+        <tr>
+          <th>STT</th>
+          <th>Số xe</th>
+          <th>Từ tháng</th>
+          <th>Đến tháng</th>
+        </tr>`;
+  data.forEach((item, idx) => {
+    html += `<tr>
+      <td>${idx+1}</td>
+      <td>${item["Số xe"]||""}</td>
+      <td>${item["Từ tháng"]||""}</td>
+      <td>${item["Đến tháng"]||""}</td>
+    </tr>`;
+  });
+  html += `</table>`;
+  document.getElementById('modalContent').innerHTML = html;
+  document.getElementById('timelineBg').classList.add('show');
+}
+function hideModal() {
+  document.getElementById('timelineBg').classList.remove('show');
+}
+
+fetch(SHEET_API)
+  .then(res => res.json())
+  .then(rows => {
+    driverMap = groupDrivers(rows);
+    renderCards();
+  });
+</script>
+</body>
+</html>
