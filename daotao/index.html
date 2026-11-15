@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+<title>Đào tạo Bán buôn Việt Tuấn</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: sticky header with tabs; single column of lesson cards / quiz sheet; admin table scrolls inside its own box. Brand: Hương Anh gold + coffee brown. */
+:root{
+  --bg:#fbf8f1; --surface:#ffffff; --ink:#2b1a0d; --muted:#6f5a46; --line:#eadfcb;
+  --brand:#5a3414; --gold:#f2b705; --gold-soft:#fdf1c7; --red:#c8261d;
+  --good:#1f7a3f; --good-soft:#e3f3e8; --bad:#b3261e; --bad-soft:#fbe7e5;
+  --font:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --radius:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#1a120b; --surface:#251a10; --ink:#f6ead8; --muted:#c4ae93; --line:#3d2d1d;
+  --brand:#f2c14e; --gold:#f2b705; --gold-soft:#3a2c10; --red:#ff6b5e;
+  --good:#6fd18f; --good-soft:#163222; --bad:#ff8a80; --bad-soft:#3a1714; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#1a120b; --surface:#251a10; --ink:#f6ead8; --muted:#c4ae93; --line:#3d2d1d;
+  --brand:#f2c14e; --gold:#f2b705; --gold-soft:#3a2c10; --red:#ff6b5e;
+  --good:#6fd18f; --good-soft:#163222; --bad:#ff8a80; --bad-soft:#3a1714; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);font-size:15px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--surface);border-bottom:1px solid var(--line)}
+.wrap{max-width:880px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{display:flex;align-items:center;gap:12px;padding-block:14px 8px}
+.mark{width:40px;height:40px;border-radius:50%;background:var(--gold);color:#3a1f08;display:grid;place-items:center;font-weight:800;font-size:15px;letter-spacing:.5px;flex:none;border:3px solid var(--red)}
+.top h1{font-size:18px;margin:0;line-height:1.2;text-wrap:balance}
+.top p{margin:0;color:var(--muted);font-size:13px}
+.who{margin-left:auto;font-size:13px;color:var(--muted);text-align:right;min-width:0}
+nav{display:flex;gap:4px;overflow-x:auto;padding-bottom:0}
+nav button{font:inherit;font-weight:600;font-size:14px;background:none;border:0;border-bottom:3px solid transparent;color:var(--muted);padding:10px 12px;cursor:pointer;white-space:nowrap}
+nav button[aria-selected="true"]{color:var(--ink);border-color:var(--gold)}
+nav button:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+main{padding-block:20px 48px}
+h2{font-size:22px;margin:0 0 4px;text-wrap:balance}
+.lead{color:var(--muted);margin:0 0 18px;max-width:65ch}
+.days{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+.chip{font:inherit;font-size:14px;font-weight:600;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 14px;border-radius:999px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--brand);border-color:var(--brand);color:var(--bg)}
+.lessons{display:flex;flex-direction:column;gap:10px}
+details.lesson{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+details.lesson summary{list-style:none;cursor:pointer;padding:14px 16px;display:flex;gap:12px;align-items:baseline}
+details.lesson summary::-webkit-details-marker{display:none}
+.num{font-weight:800;color:var(--red);font-variant-numeric:tabular-nums;min-width:28px}
+.lesson h3{font-size:16px;margin:0}
+.lesson .time{margin-left:auto;font-size:12px;color:var(--muted);white-space:nowrap}
+.lesson .body{padding:0 16px 16px 56px;min-width:0}
+.lesson ul,.lesson ol{margin:6px 0;padding-left:20px}
+.lesson li{margin:3px 0}
+.lesson table{border-collapse:collapse;font-size:13.5px;width:100%}
+.tbl{overflow-x:auto;margin:8px 0}
+.lesson th,.lesson td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+.lesson th{background:var(--gold-soft)}
+.say{background:var(--gold-soft);border-radius:8px;padding:8px 12px;margin:8px 0;font-style:italic}
+.note{font-size:13px;color:var(--muted)}
+a{color:var(--brand)}
+.quizzes{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;display:flex;flex-direction:column;gap:8px}
+.qcard h3{margin:0;font-size:16px}
+.qcard .meta{font-size:13px;color:var(--muted)}
+.best{font-size:13px;font-weight:600}
+.btn{font:inherit;font-weight:700;font-size:14px;border:0;border-radius:10px;padding:10px 16px;cursor:pointer;background:var(--gold);color:#2b1a0d}
+.btn.ghost{background:none;border:1px solid var(--line);color:var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.pill{display:inline-block;font-size:12px;font-weight:700;padding:2px 9px;border-radius:999px}
+.pill.ok{background:var(--good-soft);color:var(--good)}
+.pill.no{background:var(--bad-soft);color:var(--bad)}
+.pill.none{background:var(--gold-soft);color:var(--muted)}
+.sheet{display:flex;flex-direction:column;gap:14px}
+.progress{height:6px;background:var(--line);border-radius:6px;overflow:hidden}
+.progress span{display:block;height:100%;background:var(--gold);transition:width .2s}
+fieldset.q{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;margin:0}
+fieldset.q legend{font-weight:600;padding:0;float:left;width:100%;margin-bottom:8px}
+.opt{display:flex;gap:10px;align-items:flex-start;padding:8px 10px;border-radius:8px;cursor:pointer;border:1px solid transparent}
+.opt:hover{background:var(--gold-soft)}
+.opt input{margin-top:4px;accent-color:var(--brand)}
+.opt.right{background:var(--good-soft);border-color:var(--good)}
+.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.explain{font-size:13.5px;color:var(--muted);margin:6px 0 0;clear:both}
+.result{background:var(--surface);border:2px solid var(--gold);border-radius:var(--radius);padding:18px;display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.score{font-size:40px;font-weight:800;font-variant-numeric:tabular-nums;line-height:1}
+.bar{position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--line);padding-block:10px calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:10px;align-items:center;justify-content:space-between}
+.banner{background:var(--gold-soft);border-radius:10px;padding:10px 14px;font-size:14px;margin-bottom:14px}
+.admin-tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius)}
+.admin-tbl table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+.admin-tbl th,.admin-tbl td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left;font-variant-numeric:tabular-nums}
+.admin-tbl th{font-size:12px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}
+.person{display:flex;align-items:center;gap:8px}
+.person img{width:24px;height:24px;border-radius:50%}
+.empty{padding:24px;text-align:center;color:var(--muted)}
+.mark{object-fit:contain;background:none;border:0}
+.dayhead{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.lessonlist{display:flex;flex-direction:column;gap:8px}
+.lcard{font:inherit;text-align:left;display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;cursor:pointer;color:var(--ink)}
+.lcard:hover{border-color:var(--gold)}
+.lc-main{display:flex;flex-direction:column;flex:1;min-width:0}
+.lc-t{font-weight:700}
+.lc-m{font-size:13px;color:var(--muted)}
+.lhead{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+.num.big{font-size:34px;line-height:1}
+.goal{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:10px 14px;margin-bottom:16px}
+.goal ul,.keep ul{margin:4px 0 0;padding-left:20px}
+.keep-h{font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--red)}
+.lbody{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;min-width:0}
+.lbody h4{font-size:17px;margin:22px 0 8px;color:var(--brand)}
+.lbody h4:first-child{margin-top:0}
+.lbody p,.lbody li{max-width:72ch}
+.lbody ul,.lbody ol{padding-left:22px}
+.lbody li{margin:4px 0}
+.lbody table{border-collapse:collapse;font-size:14px;width:100%}
+.lbody th,.lbody td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+.lbody th{background:var(--gold-soft)}
+.fig{margin:12px 0 16px}
+.fig img{display:block;width:100%;border-radius:10px;border:1px solid var(--line);background:#fff}
+.fig figcaption{font-size:12.5px;color:var(--muted);margin-top:4px}
+.keep{background:var(--gold-soft);border-radius:10px;padding:12px 16px;margin:16px 0 4px}
+.task{border:1px dashed var(--brand);border-radius:10px;padding:12px 16px;margin:14px 0}
+.say{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--red);border-radius:8px;padding:10px 14px;margin:14px 0;font-style:italic}
+.say-who{display:block;font-style:normal;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--red);margin-bottom:4px}
+.timeline{display:flex;flex-direction:column;gap:0;border-left:3px solid var(--gold);margin:8px 0 8px 8px}
+.timeline div{display:grid;grid-template-columns:92px 1fr;gap:10px;padding:6px 0 6px 14px;position:relative}
+.timeline div::before{content:"";position:absolute;left:-8px;top:12px;width:11px;height:11px;border-radius:50%;background:var(--red)}
+.timeline b{font-variant-numeric:tabular-nums}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:8px 0}
+.stats div{background:var(--gold-soft);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column}
+.stats b{font-size:22px;color:var(--brand)}
+.stats span{font-size:13px;color:var(--muted)}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.grid4 div{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.grid4 span{font-size:13.5px;color:var(--muted)}
+.flow{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.flow span{background:var(--brand);color:var(--bg);border-radius:8px;padding:8px 12px;font-weight:700;font-size:14px;display:flex;flex-direction:column}
+.flow span small{font-weight:500;opacity:.8;font-size:12px}
+.flow span:not(:last-child)::after{content:""}
+.checks{margin-top:18px}
+.checks h3{margin:0 0 8px}
+.chk{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:12px 14px;margin-bottom:10px}
+.chk-q{font-weight:600;margin:0 0 8px}
+.chk-o{font:inherit;display:block;width:100%;text-align:left;background:none;border:1px solid var(--line);border-radius:8px;padding:8px 10px;margin:6px 0;cursor:pointer;color:var(--ink)}
+.chk-o:hover{background:var(--gold-soft)}
+.chk-o.right{background:var(--good-soft);border-color:var(--good)}
+.chk-o.wrong{background:var(--bad-soft);border-color:var(--bad)}
+.lnav{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-top:18px}
+@media (max-width:560px){.lbody{padding:14px}.timeline div{grid-template-columns:70px 1fr}}
+.login{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-items:center;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));overflow:auto}
+.login-box{width:100%;max-width:360px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px 24px;display:flex;flex-direction:column;gap:8px;text-align:center}
+.login-box img{margin:0 auto 4px}
+.login-box h1{font-size:20px;margin:0}
+.login-box label{text-align:left;font-size:13px;font-weight:600;margin-top:6px}
+.login-box input{font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.login-box input:focus{outline:2px solid var(--gold);outline-offset:1px}
+.login-box .btn{margin-top:10px}
+.login-err{color:var(--bad);font-size:14px;min-height:1.2em;margin:4px 0 0}
+.logout{font:inherit;font-size:13px;background:none;border:1px solid var(--line);border-radius:8px;padding:4px 10px;color:var(--muted);cursor:pointer;margin-top:4px}
+@media (max-width:560px){.lesson .body{padding-left:16px}.who{display:none}.score{font-size:32px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+<div id="login" class="login" hidden>
+  <form class="login-box" id="loginForm" autocomplete="on">
+    <img src="img/logo.png" alt="Hương Anh – Việt Tuấn" width="84" height="84">
+    <h1>Đào tạo Bán buôn Việt Tuấn</h1>
+    <p class="note">Đăng nhập để vào khóa học</p>
+    <label for="loginId">Tên đăng nhập</label>
+    <input id="loginId" name="username" autocomplete="username" required>
+    <label for="loginPass">Mật khẩu</label>
+    <input id="loginPass" name="password" type="password" autocomplete="current-password" required>
+    <button class="btn" type="submit">Đăng nhập</button>
+    <p class="login-err" id="loginErr" role="alert"></p>
+  </form>
+</div>
+<header>
+  <div class="wrap">
+    <div class="top">
+      <img class="mark" src="img/logo.png" alt="Hương Anh – Việt Tuấn">
+      <div><h1>Đào tạo Bán buôn Việt Tuấn</h1><p>Nhà phân phối Hương Anh · 3 ngày · 9:00–18:00</p></div>
+      <div class="who"><div id="who"></div><button class="logout" id="logoutBtn" type="button">Đăng xuất</button></div>
+    </div>
+    <nav role="tablist" id="tabs">
+      <button role="tab" data-tab="learn" aria-selected="true">Bài học</button>
+      <button role="tab" data-tab="quiz" aria-selected="false">Kiểm tra</button>
+      <button role="tab" data-tab="mine" aria-selected="false">Kết quả của tôi</button>
+      <button role="tab" data-tab="admin" aria-selected="false" hidden id="adminTab">Quản lý</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section id="learn"></section>
+  <section id="quiz" hidden></section>
+  <section id="mine" hidden></section>
+  <section id="admin" hidden></section>
+</main>
+
+<script src="day1.js"></script>
+<script>
+/* ---------------- CONTENT ---------------- */
+const DAYS = [
+ {id:'d1', name:'Ngày 1', title:'Công ty, hãng, sản phẩm, chính sách', lessons:DAY1},
+ {id:'d2', name:'Ngày 2', title:'Khách hàng bán buôn & kỹ năng gọi điện', lessons:[
+  {t:'4 nhóm khách hàng', time:'9:30–10:30', h:`
+   <div class="tbl"><table><tr><th>Nhóm</th><th>Quan tâm</th><th>Phải làm</th><th>Mục tiêu</th></tr>
+   <tr><td>Bán buôn</td><td>Giá, chiết khấu, công nợ, thời gian giao</td><td>Báo giá sớm, gợi ý lô lớn khi có KM, báo trước mã tăng giá</td><td>Đầu mối xả hàng tồn, nhập đều</td></tr>
+   <tr><td>Bán lẻ lớn</td><td>Thương hiệu, bảo hành, trưng bày</td><td>POSM, gói trưng bày, giao đều</td><td>Gương mặt thương hiệu khu vực</td></tr>
+   <tr><td>Bán lẻ vừa</td><td>Giá, hàng dễ bán</td><td>Báo giá gọn, combo, nhắc mua định kỳ</td><td>Mua ít nhưng đều tay</td></tr>
+   <tr><td>Thợ</td><td>Giá tốt, giao nhanh</td><td>Giao cực nhanh, báo giá ngắn đúng mã</td><td>Giữ thợ = giữ khách cuối</td></tr></table></div>
+   <p class="note">Với thợ, tránh trả lời chậm và nói vòng vo. Đơn dự án lớn của nhà thầu: chuyển trưởng nhóm.</p>`},
+  {t:'Nghiên cứu thị trường', time:'10:30–11:15', h:`
+   <p>Với mỗi đại lý phải trả lời được 3 câu:</p>
+   <ol><li>Họ đang bán thương hiệu nào tốt nhất?</li><li>Họ đang thiếu mặt hàng nào?</li><li>Nếu giảm giá hoặc hỗ trợ, họ có thể nhập ngay bao nhiêu?</li></ol>
+   <p><b>Điểm mạnh lan tỏa:</b> chọn 1–2 "điểm bán tốt" mỗi khu vực, đẩy hàng và chăm sóc mạnh, rồi dùng kết quả đó để thuyết phục đại lý lân cận.</p>`},
+  {t:'4 Xin – 4 Luôn', time:'11:15–13:45', h:`
+   <p>Khách quyết định nghe tiếp hay không trong 10 giây đầu.</p>
+   <ul><li><b>Xin chào</b> – cười khi cầm máy, giới thiệu tên, công ty, mục đích.</li>
+   <li><b>Xin phép</b> – "Anh/chị có tiện nghe em tư vấn 1–2 phút không ạ?"</li>
+   <li><b>Xin cảm ơn</b> – dù khách mua hay từ chối.</li>
+   <li><b>Xin lỗi</b> – kèm cam kết khắc phục, không đổ lỗi.</li>
+   <li><b>Luôn tươi cười · Luôn nhẹ nhàng · Luôn thấu hiểu · Luôn giúp đỡ.</b> Khách bức xúc: hạ âm lượng, nói chậm, không tranh luận.</li></ul>`},
+  {t:'Kịch bản gọi đại lý 6 bước', time:'13:45–15:00', h:`
+   <ol><li>Chào – xin phép</li><li>Lý do gọi có giá trị (KM mới, mã sắp tăng giá, hàng về, chuẩn bị mùa)</li><li>Hỏi tình hình: bán chạy, tồn kho, đang thiếu</li><li>Đề xuất theo lô: 1–2 mã, số lượng cụ thể, giao 24–48 giờ</li><li>Báo giá đúng chính sách, kèm KM</li><li>Chốt hoặc hẹn giờ gọi lại cụ thể</li></ol>
+   <div class="say">"Em chào anh Tuấn, em là Lan bên Nhà phân phối Hương Anh – Việt Tuấn. Anh có tiện nghe em 2 phút không ạ?"</div>`},
+  {t:'Xử lý từ chối & chốt đơn', time:'15:00–16:00', h:`
+   <p>Lắng nghe hết → "Dạ em hiểu ạ" → Hỏi lý do thật → Trả lời bằng lợi ích hoặc bằng chứng.</p>
+   <ul><li>"Bên kia rẻ hơn" → xin mã và điều kiện để so cùng mã; nhấn giao nhanh, chính hãng, công nợ. Không chê đối thủ, không tự hạ giá.</li>
+   <li>"Cho công nợ thì lấy" → không hứa, báo trưởng phòng xét hạn mức, gọi lại trong ngày.</li>
+   <li>"Kho còn hàng" → hỏi mã sắp hết, gợi ý lấy ít mã thiếu.</li></ul>
+   <p>Dấu hiệu sắp nhập: hỏi khi nào giao, hỏi công nợ, hỏi chiết khấu khi lấy thêm → chốt ngay.</p>`}
+ ]},
+ {id:'d3', name:'Ngày 3', title:'Bravo, theo dõi đơn, thu tiền, chăm sóc', lessons:[
+  {t:'Lên đơn trên Bravo', time:'9:00–10:30', h:`
+   <ol><li>Đăng nhập: tên, mật khẩu, ô thứ 3 điền <b>B01</b>.</li>
+   <li>Menu chính → tab <b>Đơn đặt hàng bán</b> → biểu tượng thêm đơn mới.</li>
+   <li>Gõ tên khách → <b>phím cách</b> → chọn đúng khách; tương tự với kho và mã hàng; nhập số lượng.</li>
+   <li>Bấm <b>[Tính chiết khấu/KM]</b> → <b>[Lưu và thêm mới]</b>.</li>
+   <li>Kiểm tra lại → <b>Duyệt</b> → <b>Bắt đầu thực hiện</b>. Đơn được đẩy tới khay bộ phận tiếp theo.</li></ol>
+   <p class="note">Lỗi hay gặp: nhầm khách trùng tên, nhầm kho, quên Tính chiết khấu/KM, quên duyệt.</p>`},
+  {t:'Theo dõi đơn, báo có, danh sách khách', time:'10:30–11:15', h:`
+   <ul><li>Giao hàng: Bravo → <b>Lệnh xuất hàng kiêm vận chuyển</b> (lái xe, biển số, giờ xuất, giao đại lý nào). Vị trí xe: <b>GPS Bình Anh</b>.</li>
+   <li>Báo có: <b>Báo có ngân hàng</b> → tìm khoản của khách → kích đúp → <b>F3</b> → dòng Người nộp điền tên khách → Lưu và quay ra.</li>
+   <li>Danh sách khách: menu 4 ô vuông → Danh mục → <b>Danh mục đối tượng</b>.</li></ul>
+   <div class="say">"Bán xong không phải là hết việc. Việc của NVBH hoàn thành khi công ty thu đủ tiền hàng."</div>`},
+  {t:'Chăm sóc và giữ chân đại lý', time:'11:15–12:00', h:`
+   <ul><li>Gọi định kỳ hỏi hàng bán thế nào.</li><li>Gửi báo giá sớm + quà nhỏ dịp lễ.</li><li>Lên kế hoạch mua hàng cho khách trước mùa.</li><li>Ghi nhớ thông tin cá nhân.</li><li>Sự cố: xử lý nhanh theo quy trình bảo hành.</li><li>Theo dõi công nợ của khách mình.</li></ul>
+   <p>Khách trung thành với người bán khiến họ cảm thấy được tôn trọng và đồng hành.</p>`},
+  {t:'Thực chiến và kế hoạch 30 ngày', time:'13:00–18:00', h:`
+   <ul><li>13:00–16:00: gọi danh sách đại lý thật, người kèm nghe và duyệt đơn.</li><li>16:00–17:30: bài cuối khóa trên app + gọi nhập vai.</li>
+   <li>Tuần 1: gọi hết danh sách, đơn được duyệt trước · Tuần 2: tự báo giá, lên đơn · Tuần 3–4: làm độc lập.</li></ul>
+   <p class="note">Ra nghề: cuối khóa ≥ 80%, gọi nhập vai ≥ 70/100, gọi ít nhất 10 đại lý thật.</p>`}
+ ]}
+];
+
+const Q = {
+ d1:[
+  ['Việt Tuấn là đối tác của khoảng bao nhiêu đại lý, cửa hàng?',['Khoảng 500','Khoảng 1.500','Hơn 3.500, trên 28 tỉnh phía Bắc','Hơn 10.000 trên cả nước'],2,'Hồ sơ năng lực: hơn 3.500 đại lý, cửa hàng trải dài 28 tỉnh thành phía Bắc.'],
+  ['Tổng kho của công ty có diện tích bao nhiêu?',['Khoảng 2.000 m²','Hơn 18.000 m²','Khoảng 5.000 m²','Hơn 50.000 m²'],1,'Tổng kho hơn 18.000 m² cùng hơn 80 xe tải giao hàng.'],
+  ['Việt Tuấn là nhà phân phối độc quyền miền Bắc của hãng nào (tủ lạnh, máy giặt)?',['Sharp','Hitachi','Toshiba','Electrolux'],2,'Toshiba: nhà phân phối độc quyền tại miền Bắc.'],
+  ['Aufit là hãng gì và Việt Tuấn giữ vai trò gì?',['Tủ đông, đại lý cấp 2','Điều hòa, NPP độc quyền miền Bắc','Máy giặt, NPP toàn quốc','Quạt, đại lý bán lẻ'],1,'Aufit: điều hòa Inverter, Việt Tuấn là NPP độc quyền miền Bắc.'],
+  ['Đơn hàng được áp dụng giá buôn khi nào?',['Từ 5 triệu đồng','Từ 20 triệu đồng hoặc từ 3 sản phẩm cùng loại','Từ 50 triệu đồng','Chỉ khi là đại lý cấp 1'],1,'Chính sách bán buôn: đơn từ 20 triệu hoặc từ 03 sản phẩm cùng loại.'],
+  ['Thời gian giao hàng cam kết là bao lâu?',['Nội thành 24 giờ, ngoại tỉnh 48 giờ','Nội thành 3 ngày, ngoại tỉnh 1 tuần','Trong ngày cho mọi nơi','Tùy đội xe sắp xếp'],0,'Nội thành 24 giờ – ngoại tỉnh 48 giờ, dự án gấp 24 giờ từ khi xác nhận đơn.'],
+  ['Khách cần điều hòa cho phòng 18 m². Nên chọn công suất nào?',['9.000 BTU (1 HP)','12.000 BTU (1,5 HP)','18.000 BTU (2 HP)','24.000 BTU (2,5 HP)'],1,'12.000 BTU phù hợp 15–20 m².'],
+  ['Mã Daikin FTHF25… khác FTKB25… ở điểm nào?',['FTHF là 2 chiều, FTKB là 1 chiều','FTHF là âm trần','FTHF công suất lớn hơn gấp đôi','Không khác nhau'],0,'FTHF = 2 chiều (sưởi được), FTKB = 1 chiều; số 25 ≈ 9.000 BTU.'],
+  ['Thứ tự đúng của quy trình bán hàng là?',['Lên đơn → Giao hàng → Xuất hóa đơn → Thủ kho xuất','Tư vấn → Lên đơn → Thủ kho xuất hàng → Xuất hóa đơn → Giao hàng','Giao hàng → Thu tiền → Lên đơn','Tư vấn → Giao hàng → Lên đơn'],1,'Mỗi bước có xác nhận điện tử và người chịu trách nhiệm.'],
+  ['Khi tiếp nhận bảo hành, NVBH cần lấy thông tin gì?',['Chỉ cần tên khách','Mã sản phẩm, mô tả lỗi, thời gian mua, ảnh/video lỗi','Số tài khoản ngân hàng của khách','Không cần, chuyển thẳng cho hãng'],1,'Bước 1 của quy trình bảo hành – đổi trả.'],
+  ['Đại lý xin giảm thêm ngoài bảng giá để chốt nhanh. NVBH làm gì?',['Tự giảm cho kịp','Không tự giảm ngoài chính sách; báo quản lý nếu cần xét','Từ chối và cúp máy','Hứa giảm lần sau'],1,'Cam kết bảo vệ giá: không bán phá giá, không tự giảm ngoài chính sách.'],
+  ['Chuyên viên trực tiếp nhận yêu cầu của đối tác trong khung giờ nào?',['8:00–17:00 thứ 2–thứ 6','8:00–21:00 hằng ngày, kể cả T7 và CN','24/7','9:00–18:00 trừ CN'],1,'Quy trình JIT bước 1: trực 08:00–21:00 hằng ngày.'],
+  ['Đại lý hỏi điều hòa 2 chiều 12.000 BTU của Daikin. Mã nào đúng?',['FTKB25ZVMV','FTHF35XVMV','FTHF50VAVMV','FCFC50DVM'],1,'FTHF = 2 chiều; 35 ≈ 12.000 BTU.'],
+  ['Điều hòa Aufit 2 HP (AFW18FHA4DI-5VN) có điểm bán nổi bật nào?',['Bảo hành máy nén 5 năm, nhãn năng lượng 5 sao','Giấu trần','Chỉ có 1 chiều 9.000 BTU','Nhập khẩu Nhật Bản'],0,'Theo catalogue: 5 sao năng lượng, Ion Plasma, bảo hành máy nén 5 năm.'],
+  ['Gia đình 2–3 người cần tủ lạnh. Dung tích phù hợp?',['Khoảng 180–200 lít','Khoảng 500 lít','Khoảng 670 lít','Tủ đông 290 lít'],0,'Ví dụ Sharp SJ-X215V 197 L, Toshiba GR-RT236WE 182 L.'],
+  ['Tủ đông Toshiba GR-RC185CM giữ đông được bao lâu khi mất điện?',['10 giờ','24 giờ','Đến 100 giờ','Không giữ được'],2,'Dàn đồng nguyên chất, giữ đông đến 100 giờ.'],
+  ['Máy sấy Electrolux bơm nhiệt giảm điện năng tới bao nhiêu?',['10%','30%','60%','90%'],2,'Bơm nhiệt giảm tới 60% điện năng.'],
+  ['Tháng 1, nên gợi ý đại lý nhập trước nhóm hàng nào?',['Máy hút ẩm, máy sấy cho mùa nồm','Quạt','Tủ mát','Điều hòa 1 chiều'],0,'Mùa nồm tháng 2–4; gọi từ tháng 1.'],
+  ['Khách hỏi "xe giao hàng đến đâu rồi". NVBH hỏi bộ phận nào?',['Kế toán','Thủ kho','Đội xe','Ban Giám đốc'],2,'Đội xe theo dõi tiến độ giao hàng.'],
+  ['Hãng nào Việt Tuấn tập trung phân phối máy giặt cửa ngang và máy sấy?',['Sanaky','Electrolux','Pinimax','Aufit'],1,'Electrolux: tập trung máy giặt cửa ngang, máy sấy.']
+ ],
+ d2:[
+  ['Đại lý bán buôn quan tâm nhất điều gì?',['Màu sắc sản phẩm','Giá, chiết khấu, công nợ, thời gian giao','Quà tặng cá nhân','Bao bì đẹp'],1,'Bán buôn nhập lô lớn nên quan tâm giá, chiết khấu, công nợ, giao hàng.'],
+  ['Với đại lý thợ, điều cần TRÁNH nhất là gì?',['Giao quá nhanh','Trả lời chậm khi họ cần báo giá, nói vòng vo','Báo giá ngắn gọn','Nhớ tên họ'],1,'Thợ cần "rõ ràng, lẹ, dứt điểm" – chậm là họ đi chỗ khác.'],
+  ['Đại lý bán lẻ lớn cần được hỗ trợ gì thường xuyên?',['POSM, trưng bày sản phẩm mới, giao đều','Gọi 5 lần mỗi ngày','Giảm giá dưới giá hãng','Không cần hỗ trợ'],0,'Mục tiêu: biến họ thành gương mặt đại diện thương hiệu tại khu vực.'],
+  ['Câu nào KHÔNG thuộc 3 câu hỏi thị trường phải trả lời về mỗi đại lý?',['Họ đang bán thương hiệu nào tốt nhất?','Họ đang thiếu mặt hàng nào?','Nếu giảm giá/hỗ trợ, họ nhập ngay bao nhiêu?','Chủ đại lý bao nhiêu tuổi?'],3,'Không trả lời được 1 trong 3 câu là đang thiếu dữ liệu.'],
+  ['Câu "xin phép" chuẩn ở đầu cuộc gọi là?',['"Anh nghe em nói nhé"','"Anh/chị có tiện nghe em tư vấn 1–2 phút không ạ?"','"Em gọi để bán hàng"','"Anh có lấy gì không?"'],1,'Xin phép giúp khách thấy được tôn trọng và chủ động quyết định.'],
+  ['Khách quyết định có nghe tiếp hay không trong bao lâu?',['10 giây đầu cuộc gọi','5 phút','Cuối cuộc gọi','Không quan trọng'],0,'Vì vậy câu chào và xin phép phải chuẩn ngay từ đầu.'],
+  ['Đại lý bức xúc vì lần trước giao chậm. Cách xử lý đúng?',['Giải thích là lỗi đội xe','Tranh luận để bảo vệ công ty','Xin lỗi, hạ giọng, cam kết theo dõi và báo giờ xe chính xác','Hứa tặng hàng miễn phí'],2,'Xin lỗi + Luôn nhẹ nhàng: không đổ lỗi, kèm cam kết khắc phục.'],
+  ['Chiến lược "điểm mạnh lan tỏa" bắt đầu từ đâu?',['Đại lý khó tính nhất','1–2 điểm bán tốt trong khu vực','Đại lý xa nhất','Đại lý chưa mua bao giờ'],1,'Bán cho người dễ bán trước, dùng họ làm "quảng cáo sống".'],
+  ['Đại lý nói "Bên kia báo rẻ hơn". Câu trả lời đúng?',['"Bên đó hàng kém lắm anh"','"Em giảm cho anh luôn"','"Anh cho em xin mã và điều kiện bên đó để em so cùng mã ạ"','"Vậy anh lấy bên đó đi"'],2,'So cùng mã, cùng điều kiện; nhấn chính hãng, giao nhanh, công nợ. Không chê đối thủ.'],
+  ['Dấu hiệu đại lý sắp nhập hàng là?',['Hỏi khi nào giao, hỏi công nợ, hỏi chiết khấu khi lấy thêm','Không nghe máy','Nói "để anh xem"','Hỏi tên nhân viên'],0,'Gặp dấu hiệu là chốt ngay.'],
+  ['Đại lý đòi công nợ mới chịu lấy hàng. NVBH nên?',['Đồng ý ngay','Không hứa; báo trưởng phòng xét hạn mức và gọi lại trong ngày','Từ chối thẳng','Bảo khách chuyển khoản trước'],1,'Hạn mức công nợ dành cho đối tác chiến lược, do công ty xét.'],
+  ['Lý do gọi nào có giá trị nhất với đại lý?',['"Anh có lấy gì không ạ?"','"Mẫu điều hòa này sắp tăng giá, em báo anh nhập trước mùa"','"Em gọi hỏi thăm thôi"','"Sếp em bắt gọi"'],1,'Gọi phải mang thông tin có lợi cho đại lý: KM, tăng giá, hàng về, chuẩn bị mùa.']
+ ],
+ d3:[
+  ['Khi đăng nhập Bravo, ô thứ 3 điền gì?',['Mã nhân viên','B01','Số điện thoại','Để trống'],1,'Ô thứ 3 điền B01 rồi ấn Đăng nhập.'],
+  ['Tạo đơn bán mới ở tab nào?',['Báo có ngân hàng','Đơn đặt hàng bán','Danh mục đối tượng','Hóa đơn bán hàng'],1,'Menu chính → tab Đơn đặt hàng bán → biểu tượng thêm đơn mới.'],
+  ['Cách chọn khách hàng khi lên đơn?',['Gõ đầy đủ tên rồi Enter','Gõ tên khách → phím cách (space) → chọn đúng khách','Copy từ Zalo','Chọn khách đầu tiên trong danh sách'],1,'Tương tự với kho và mã hàng.'],
+  ['Trước khi bấm "Lưu và thêm mới" phải bấm nút gì?',['In đơn','Tính chiết khấu/KM','Xóa dòng','Duyệt'],1,'Quên bấm là đơn sai giá.'],
+  ['Đơn đã lưu nhưng kho chưa xuất. Lỗi thường gặp là?',['Chưa Duyệt → Bắt đầu thực hiện','Chưa gửi Zalo','Chưa in hóa đơn','Chưa gọi lái xe'],0,'Duyệt xong đơn mới được đẩy tới khay bộ phận tiếp theo.'],
+  ['Muốn biết xe nào giao cho đại lý nào, bao nhiêu máy, xem ở đâu?',['Báo có ngân hàng','Lệnh xuất hàng kiêm vận chuyển trên Bravo','Danh mục đối tượng','Hỏi khách'],1,'Vị trí xe thực tế xem trên GPS Bình Anh.'],
+  ['Khách đã chuyển khoản nhưng chưa xác định người gửi. NVBH làm gì?',['Không cần làm gì','Vào Báo có ngân hàng → kích đúp → F3 → điền Người nộp là tên khách → Lưu và quay ra','Gọi khách chuyển lại','Báo lái xe thu tiền mặt'],1,'Quy trình nhận báo có.'],
+  ['Xem danh sách khách được giao ở đâu?',['Menu 4 ô vuông → Danh mục → Danh mục đối tượng','Tab Đơn đặt hàng bán','GPS Bình Anh','Zalo nhóm'],0,'Kéo sang cột Phân hạng khách hàng để xem đánh giá.'],
+  ['Việc của NVBH được tính là hoàn thành khi nào?',['Khi khách đồng ý mua','Khi lên đơn xong','Khi công ty thu đủ tiền hàng','Khi xe xuất kho'],2,'"Bán xong không phải là hết việc."'],
+  ['Theo tài liệu đào tạo, khách hàng trung thành với điều gì?',['Sản phẩm rẻ nhất','Người bán hàng khiến họ cảm thấy được tôn trọng và đồng hành','Hãng nổi tiếng nhất','Quà tặng lớn'],1,'Khách không trung thành với sản phẩm, mà với người bán.'],
+  ['Đại lý báo sản phẩm hỏng. NVBH xử lý thế nào?',['Bảo khách tự liên hệ hãng','Tiếp nhận thông tin, kiểm tra sơ bộ, gửi bảo hành hãng, bám sát và báo khách','Đổi máy mới ngay không cần kiểm tra','Chờ khách gọi lại lần 2'],1,'Quy trình bảo hành – đổi trả 4 bước.'],
+  ['Khi nào nên gợi ý đại lý nhập điều hòa?',['Giữa mùa hè khi đã cháy hàng','1–2 tháng trước mùa nóng','Tết','Không cần gợi ý'],1,'Mùa vụ: gợi ý nhập trước mùa để đại lý có hàng bán đúng lúc.']
+ ]
+};
+const QUIZZES = [
+ {id:'d1', name:'Kiểm tra Ngày 1', desc:'Công ty, hãng, sản phẩm, chính sách', pool:()=>Q.d1, n:15, pass:80},
+ {id:'d2', name:'Kiểm tra Ngày 2', desc:'Khách hàng, 4 Xin – 4 Luôn, từ chối, chốt đơn', pool:()=>Q.d2, n:12, pass:80},
+ {id:'d3', name:'Kiểm tra Ngày 3', desc:'Bravo, theo dõi đơn, báo có, chăm sóc', pool:()=>Q.d3, n:12, pass:80},
+ {id:'final', name:'Bài cuối khóa', desc:'20 câu ngẫu nhiên từ cả 3 ngày', pool:()=>[...Q.d1,...Q.d2,...Q.d3], n:20, pass:80}
+];
+
+/* ---------------- STATE ---------------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+let db=null, user=null, myId=null, isAdmin=false, canSave=null;
+let myDoc=null; let allResults=[]; let activeDay='d1'; let current=null;
+let saveNote='';
+const LOCAL_KEY='vt-daotao-ketqua';
+function loadLocal(){ try{ return JSON.parse(localStorage.getItem(LOCAL_KEY)||'null'); }catch(e){ return null; } }
+function saveLocal(doc){ try{ localStorage.setItem(LOCAL_KEY, JSON.stringify(doc)); return true; }catch(e){ return false; } }
+/* Đăng nhập: tài khoản chung cho học viên */
+const LOGIN_ID='admin', LOGIN_PASS='daotaonhanvien', LOGIN_KEY='vt-daotao-login';
+function loggedIn(){ try{ return localStorage.getItem(LOGIN_KEY)==='1'; }catch(e){ return sessionLogged; } }
+let sessionLogged=false;
+function showLogin(){ $('#login').hidden=false; setTimeout(()=>{ const i=$('#loginId'); if(i) i.focus(); },50); }
+$('#loginForm').addEventListener('submit',e=>{
+  e.preventDefault();
+  const u=$('#loginId').value.trim(), p=$('#loginPass').value;
+  if(u===LOGIN_ID && p===LOGIN_PASS){ sessionLogged=true; try{localStorage.setItem(LOGIN_KEY,'1')}catch(err){} $('#login').hidden=true; $('#loginErr').textContent=''; $('#loginPass').value=''; }
+  else { $('#loginErr').textContent='Sai tên đăng nhập hoặc mật khẩu. Kiểm tra lại rồi thử lại.'; }
+});
+$('#logoutBtn').onclick=()=>{ sessionLogged=false; try{localStorage.removeItem(LOGIN_KEY)}catch(e){} showLogin(); };
+if(!loggedIn()) showLogin();
+
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function fmtTime(ms){if(!ms)return '—';const d=new Date(ms);return d.toLocaleDateString('vi-VN',{day:'2-digit',month:'2-digit'})+' '+d.toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});}
+
+/* ---------------- TABS ---------------- */
+function showTab(name){
+  document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===name));
+  ['learn','quiz','mine','admin'].forEach(id=>$('#'+id).hidden = id!==name);
+  try{localStorage.setItem('vt-tab',name)}catch(e){}
+  if(name==='quiz' && !current) renderQuizList();
+  if(name==='mine') renderMine();
+  if(name==='admin') renderAdmin();
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+
+/* ---------------- LESSONS ---------------- */
+let openLesson = null; // index in active day, or null for list
+function lessonKey(day,i){ return day+'-'+(i+1); }
+function isDone(day,i){ return !!(myDoc && myDoc.progress && myDoc.progress[lessonKey(day,i)]); }
+function dayDone(day){ const d=DAYS.find(x=>x.id===day); return d.lessons.filter((l,i)=>isDone(day,i)).length; }
+function renderLearn(){
+  const d = DAYS.find(x=>x.id===activeDay);
+  if(openLesson!==null) return renderLesson(d, openLesson);
+  const done = dayDone(d.id);
+  $('#learn').innerHTML = `
+    <h2>Bài học</h2>
+    <p class="lead">Học lần lượt từng bài theo giờ trên lớp. Mỗi bài có mục tiêu, nội dung kèm ảnh catalogue và slide, câu nói mẫu với đại lý và phần tự kiểm tra. Slide gốc ở <a href="https://adamavaadam.github.io/VTAI1/courses.html" target="_blank" rel="noopener">Kho thông tin Việt Tuấn</a>.</p>
+    <div class="days">${DAYS.map(x=>`<button class="chip" aria-pressed="${x.id===activeDay}" data-day="${x.id}">${x.name}: ${x.title}</button>`).join('')}</div>
+    <div class="dayhead"><div><b>${d.name}</b> · ${d.lessons.length} bài · 9:00–18:00</div><div class="note">Đã học ${done}/${d.lessons.length}</div></div>
+    <div class="progress" style="margin-bottom:14px"><span style="width:${done/d.lessons.length*100}%"></span></div>
+    <div class="lessonlist">${d.lessons.map((l,i)=>`
+      <button class="lcard" data-open="${i}">
+        <span class="num">${String(i+1).padStart(2,'0')}</span>
+        <span class="lc-main"><span class="lc-t">${l.t}</span><span class="lc-m">${l.time}${l.check&&l.check.length?` · ${l.check.length} câu tự kiểm tra`:''}</span></span>
+        ${isDone(d.id,i)?'<span class="pill ok">Đã học</span>':'<span class="pill none">Chưa học</span>'}
+      </button>`).join('')}</div>
+    ${d.id!=='d1'?'<p class="note" style="margin-top:12px">Nội dung chi tiết của ngày này sẽ được bổ sung.</p>':''}
+    <p style="margin-top:16px"><button class="btn" id="goQuiz">Làm bài kiểm tra ${d.name}</button></p>`;
+  document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{activeDay=b.dataset.day;openLesson=null;renderLearn();});
+  document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{openLesson=+b.dataset.open;renderLearn();window.scrollTo(0,0);});
+  $('#goQuiz').onclick=()=>{showTab('quiz');startQuiz(activeDay);};
+}
+function renderLesson(d,i){
+  const l=d.lessons[i]; const body=l.html||l.h; const checks=l.check||[];
+  $('#learn').innerHTML = `
+    <p><button class="btn ghost" id="toList">← ${d.name}: danh sách bài</button></p>
+    <div class="lhead"><span class="num big">${String(i+1).padStart(2,'0')}</span><div><div class="note">${d.name} · ${l.time}</div><h2>${l.t}</h2></div></div>
+    ${l.goal&&l.goal.length?`<div class="goal"><div class="keep-h">Mục tiêu bài học</div><ul>${l.goal.map(g=>`<li>${g}</li>`).join('')}</ul></div>`:''}
+    <article class="lbody">${body}</article>
+    ${checks.length?`<section class="checks"><h3>Tự kiểm tra</h3>${checks.map((c,ci)=>`
+      <div class="chk" data-ci="${ci}"><p class="chk-q">${ci+1}. ${esc(c[0])}</p>
+      ${c[1].map((o,oi)=>`<button class="chk-o" data-oi="${oi}">${esc(o)}</button>`).join('')}
+      <p class="explain" hidden></p></div>`).join('')}</section>`:''}
+    <div class="lnav">
+      <button class="btn ghost" id="prevL" ${i===0?'disabled':''}>← Bài trước</button>
+      <button class="btn ${isDone(d.id,i)?'ghost':''}" id="doneL">${isDone(d.id,i)?'Đã học ✓':'Đánh dấu đã học'}</button>
+      <button class="btn ghost" id="nextL" ${i===d.lessons.length-1?'disabled':''}>Bài sau →</button>
+    </div>
+    <p class="note" id="doneNote"></p>`;
+  $('#toList').onclick=()=>{openLesson=null;renderLearn();window.scrollTo(0,0);};
+  $('#prevL').onclick=()=>{openLesson=i-1;renderLearn();window.scrollTo(0,0);};
+  $('#nextL').onclick=()=>{openLesson=i+1;renderLearn();window.scrollTo(0,0);};
+  $('#doneL').onclick=()=>markDone(d.id,i);
+  document.querySelectorAll('[data-go-quiz]').forEach(b=>b.onclick=()=>{showTab('quiz');startQuiz(b.dataset.goQuiz);});
+  document.querySelectorAll('.chk').forEach(box=>{
+    const c=checks[+box.dataset.ci];
+    box.querySelectorAll('.chk-o').forEach(btn=>btn.onclick=()=>{
+      const oi=+btn.dataset.oi;
+      box.querySelectorAll('.chk-o').forEach((x,xi)=>{x.classList.remove('right','wrong'); if(xi===c[2]&&oi===c[2]) x.classList.add('right');});
+      if(oi===c[2]) btn.classList.add('right'); else btn.classList.add('wrong');
+      const ex=box.querySelector('.explain'); ex.hidden=false; ex.textContent=(oi===c[2]?'Đúng. ':'Chưa đúng, thử lại. ')+(oi===c[2]?c[3]:'');
+    });
+  });
+}
+async function markDone(day,i){
+  const note=$('#doneNote');
+  if(isDone(day,i)) return;
+  if(!db||!myId){
+    const base = myDoc ? JSON.parse(JSON.stringify(myDoc)) : {quizzes:{}};
+    base.progress=base.progress||{}; base.progress[lessonKey(day,i)]=Date.now(); base.updatedAt=Date.now(); myDoc=base; saveLocal(base); renderLearn(); return;
+  }
+  if(canSave===false){ note.textContent='Tiến độ chưa được lưu vì tài khoản chưa có quyền lưu (cần quyền Contributor).'; return; }
+  const base = myDoc ? JSON.parse(JSON.stringify(myDoc)) : {uid:myId, quizzes:{}};
+  base.uid=myId; base.progress=base.progress||{}; base.progress[lessonKey(day,i)]=Date.now(); base.updatedAt=Date.now();
+  try{ await db.doc('results/'+myId).set(base); myDoc=base; renderLearn(); }
+  catch(e){ if(e&&e.code==='invalid_argument') canSave=false; note.textContent='Chưa lưu được tiến độ, thử lại sau.'; }
+}
+
+/* ---------------- QUIZ ---------------- */
+function bestOf(id){ return myDoc && myDoc.quizzes && myDoc.quizzes[id] ? myDoc.quizzes[id] : null; }
+function passPill(rec,pass){ if(!rec) return '<span class="pill none">Chưa làm</span>'; return rec.best>=pass?`<span class="pill ok">Đạt ${rec.best}%</span>`:`<span class="pill no">Chưa đạt ${rec.best}%</span>`; }
+
+function renderQuizList(){
+  current=null;
+  $('#quiz').innerHTML = `
+    <h2>Kiểm tra</h2>
+    <p class="lead">Trắc nghiệm tự chấm điểm. Đạt từ 80%. Làm lại bao nhiêu lần cũng được, hệ thống giữ điểm cao nhất.</p>
+    ${saveBanner()}
+    <div class="quizzes">${QUIZZES.map(q=>{const r=bestOf(q.id);return `
+      <div class="qcard"><h3>${q.name}</h3><div class="meta">${q.desc} · ${q.n} câu</div>
+      <div class="best">${passPill(r,q.pass)}${r?` <span class="meta">· ${r.attempts} lần</span>`:''}</div>
+      <button class="btn" data-start="${q.id}">${r?'Làm lại':'Bắt đầu'}</button></div>`}).join('')}</div>`;
+  document.querySelectorAll('[data-start]').forEach(b=>b.onclick=()=>startQuiz(b.dataset.start));
+}
+function saveBanner(){
+  if(!db) return `<div class="banner">Điểm và tiến độ được lưu trên trình duyệt của máy này. Học viên nên dùng cố định một máy hoặc điện thoại.</div>`;
+  if(canSave===false) return `<div class="banner">Tài khoản của bạn chỉ có quyền xem, nên điểm không được lưu. Nhờ quản lý chia sẻ app với quyền Contributor.</div>`;
+  return '';
+}
+function startQuiz(id){
+  const qz = QUIZZES.find(q=>q.id===id);
+  const qs = shuffle(qz.pool()).slice(0,qz.n).map(([text,opts,ans,why])=>{
+    const order = shuffle(opts.map((o,i)=>i));
+    return {text, opts:order.map(i=>opts[i]), ans:order.indexOf(ans), why};
+  });
+  current={qz,qs,answers:Array(qs.length).fill(null),done:false};
+  renderSheet();
+}
+function renderSheet(){
+  const {qz,qs,answers,done}=current;
+  const answered = answers.filter(a=>a!==null).length;
+  $('#quiz').innerHTML = `
+    <p><button class="btn ghost" id="back">← Danh sách bài kiểm tra</button></p>
+    <h2>${qz.name}</h2>
+    <p class="lead">${qz.desc}</p>
+    <div id="resultBox"></div>
+    <form class="sheet" id="sheet">
+      ${qs.map((q,i)=>`<fieldset class="q"><legend>${i+1}. ${esc(q.text)}</legend>
+        ${q.opts.map((o,j)=>{
+          let cls=''; if(done){ if(j===q.ans) cls='right'; else if(answers[i]===j) cls='wrong'; }
+          return `<label class="opt ${cls}"><input type="radio" id="q${i}o${j}" name="q${i}" value="${j}" ${answers[i]===j?'checked':''} ${done?'disabled':''}><span>${esc(o)}</span></label>`;}).join('')}
+        ${done?`<p class="explain">${answers[i]===q.ans?'Đúng. ':'Sai. '}${esc(q.why)}</p>`:''}
+      </fieldset>`).join('')}
+    </form>
+    <div class="bar">
+      <div style="flex:1;min-width:0"><div class="note">${done?'Đã nộp bài':`Đã trả lời ${answered}/${qs.length}`}</div><div class="progress"><span style="width:${answered/qs.length*100}%"></span></div></div>
+      ${done?`<button class="btn" id="again">Làm lại</button>`:`<button class="btn" id="submit" ${answered<qs.length?'disabled':''}>Nộp bài</button>`}
+    </div>`;
+  $('#back').onclick=renderQuizList;
+  if(!done){
+    $('#sheet').addEventListener('change',e=>{const m=e.target.name.match(/^q(\d+)$/); if(m){current.answers[+m[1]]=+e.target.value; updateBar();}});
+    $('#submit').onclick=submitQuiz;
+  } else {
+    $('#again').onclick=()=>startQuiz(qz.id);
+    showResult();
+  }
+}
+function updateBar(){
+  const n=current.answers.filter(a=>a!==null).length, t=current.qs.length;
+  document.querySelector('.bar .note').textContent=`Đã trả lời ${n}/${t}`;
+  document.querySelector('.progress span').style.width=(n/t*100)+'%';
+  $('#submit').disabled = n<t;
+}
+async function submitQuiz(){
+  current.done=true;
+  const {qz,qs,answers}=current;
+  const right = qs.filter((q,i)=>answers[i]===q.ans).length;
+  const pct = Math.round(right/qs.length*100);
+  current.score={right,total:qs.length,pct};
+  saveNote = 'Đang lưu điểm…';
+  renderSheet(); window.scrollTo(0,0);
+  saveNote = await saveResult(qz.id,pct,right,qs.length);
+  showResult();
+}
+function showResult(){
+  const {qz,score}=current; if(!score) return;
+  const ok = score.pct>=qz.pass;
+  $('#resultBox').innerHTML = `<div class="result"><div class="score">${score.pct}%</div>
+    <div><div>${ok?'<span class="pill ok">Đạt</span>':'<span class="pill no">Chưa đạt</span>'} Đúng ${score.right}/${score.total} câu · Yêu cầu ${qz.pass}%</div>
+    <div class="note">${esc(saveNote)} Xem lại đáp án bên dưới.</div></div></div>`;
+}
+async function saveResult(id,pct,right,total){
+  if(!db || !myId){
+    const base = myDoc ? JSON.parse(JSON.stringify(myDoc)) : {quizzes:{}};
+    base.quizzes = base.quizzes || {};
+    const prev = base.quizzes[id] || {best:0,attempts:0};
+    base.quizzes[id] = {best:Math.max(prev.best||0,pct), last:pct, right, total, attempts:(prev.attempts||0)+1, at:Date.now()};
+    base.updatedAt = Date.now(); myDoc = base;
+    return saveLocal(base) ? 'Đã lưu điểm trên máy này.' : 'Trình duyệt không cho lưu, điểm chỉ hiện trong lần học này.';
+  }
+  if(canSave===false) return 'Điểm chưa được lưu vì tài khoản chỉ có quyền xem.';
+  const base = myDoc ? JSON.parse(JSON.stringify(myDoc)) : {uid:myId, quizzes:{}};
+  base.uid = myId; base.quizzes = base.quizzes || {};
+  const prev = base.quizzes[id] || {best:0,attempts:0};
+  base.quizzes[id] = {best:Math.max(prev.best||0,pct), last:pct, right, total, attempts:(prev.attempts||0)+1, at:Date.now()};
+  base.updatedAt = Date.now();
+  try{ await db.doc('results/'+myId).set(base); myDoc = base; return 'Đã lưu điểm.'; }
+  catch(e){ if(e && e.code==='invalid_argument'){canSave=false; return 'Điểm chưa được lưu vì tài khoản chỉ có quyền xem.';} return 'Chưa lưu được điểm, thử nộp lại sau.'; }
+}
+
+/* ---------------- MY RESULTS ---------------- */
+function renderMine(){
+  $('#mine').innerHTML = `<h2>Kết quả của tôi</h2><p class="lead">Điểm cao nhất của từng bài. Ra nghề khi bài cuối khóa đạt từ 80%.</p>${saveBanner()}
+   <div class="admin-tbl"><table><thead><tr><th>Bài</th><th>Cao nhất</th><th>Lần gần nhất</th><th>Số lần</th><th>Thời gian</th></tr></thead><tbody>
+   ${QUIZZES.map(q=>{const r=bestOf(q.id);return `<tr><td>${q.name}</td><td>${passPill(r,q.pass)}</td><td>${r?r.last+'%':'—'}</td><td>${r?r.attempts:0}</td><td>${r?fmtTime(r.at):'—'}</td></tr>`}).join('')}
+   </tbody></table></div>`;
+}
+
+/* ---------------- ADMIN ---------------- */
+async function renderAdmin(){
+  const el=$('#admin');
+  if(!isAdmin){el.innerHTML='<p class="empty">Chỉ quản lý xem được tab này.</p>';return;}
+  const ids = allResults.map(r=>r.uid).filter(Boolean);
+  const ps = ids.length && user ? await user.profiles(ids) : {};
+  const passed = allResults.filter(r=>r.quizzes&&r.quizzes.final&&r.quizzes.final.best>=80).length;
+  el.innerHTML = `<h2>Quản lý điểm học viên</h2>
+   <p class="lead">${allResults.length} học viên đã làm bài · ${passed} người đạt bài cuối khóa. Bảng tự cập nhật khi học viên nộp bài.</p>
+   <div class="admin-tbl">${allResults.length?`<table><thead><tr><th>Học viên</th>${QUIZZES.map(q=>`<th>${q.id==='final'?'Cuối khóa':q.name.replace('Kiểm tra ','')}</th>`).join('')}<th>Đã học N1</th><th>Cập nhật</th></tr></thead><tbody id="arows"></tbody></table>`:'<p class="empty">Chưa có học viên nào nộp bài. Gửi link app cho học viên (quyền Contributor) để bắt đầu.</p>'}</div>`;
+  const tb=$('#arows'); if(!tb) return;
+  allResults.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).forEach(r=>{
+    const tr=document.createElement('tr'); const p=ps[r.uid]||{};
+    const td=document.createElement('td'); const wrap=document.createElement('div'); wrap.className='person';
+    if(p.avatarUrl){const img=document.createElement('img');img.src=p.avatarUrl;img.alt='';wrap.appendChild(img);}
+    const nm=document.createElement('span'); nm.textContent=p.name||'Học viên'; wrap.appendChild(nm); td.appendChild(wrap); tr.appendChild(td);
+    QUIZZES.forEach(q=>{const c=document.createElement('td'); const rec=r.quizzes&&r.quizzes[q.id]; c.innerHTML=passPill(rec,q.pass)+(rec?` <span class="note">${rec.attempts} lần</span>`:''); tr.appendChild(c);});
+    const pg=document.createElement('td'); const nd=r.progress?Object.keys(r.progress).filter(k=>k.startsWith('d1-')).length:0; pg.textContent=nd+'/'+DAYS[0].lessons.length; tr.appendChild(pg);
+    const t=document.createElement('td'); t.textContent=fmtTime(r.updatedAt); tr.appendChild(t);
+    tb.appendChild(tr);
+  });
+}
+
+/* ---------------- BOOT ---------------- */
+renderLearn(); renderQuizList();
+try{ const t=localStorage.getItem('vt-tab'); if(t && t!=='admin') showTab(t); }catch(e){}
+
+(async()=>{
+  try{ user = await window.claude?.use?.('user'); }catch(e){ user=null; }
+  try{ db = await window.claude?.use?.('db'); }catch(e){ db=null; }
+  if(user){
+    try{ const me = await user.me(); myId = me.id; isAdmin = !!(me.isOwner||me.canEdit);
+      if(me.name) $('#who').textContent = me.name; }catch(e){}
+    try{ const c = await user.can('data.write'); canSave = (c===null)?null:c; }catch(e){}
+  }
+  if(!db || !myId){ myDoc = loadLocal(); renderLearn(); if(!current && !$('#quiz').hidden) renderQuizList(); }
+  if(isAdmin) $('#adminTab').hidden=false;
+  if(db && myId){
+    db.doc('results/'+myId).onSnapshot(s=>{ myDoc = s.exists ? s.data() : null; if(!$('#learn').hidden && openLesson===null) renderLearn(); if(!current && !$('#quiz').hidden) renderQuizList(); if(!$('#mine').hidden) renderMine(); }, ()=>{});
+  }
+  if(db && isAdmin){
+    db.collection('results').onSnapshot(s=>{ allResults = s.docs.map(d=>d.data()); if(!$('#admin').hidden) renderAdmin(); }, ()=>{});
+  }
+  if(!current && !$('#quiz').hidden) renderQuizList();
+})();
+</script>
+
+</body>
+</html>
