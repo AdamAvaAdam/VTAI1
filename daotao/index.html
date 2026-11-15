@@ -152,6 +152,7 @@ fieldset.q legend{font-weight:600;padding:0;float:left;width:100%;margin-bottom:
 .chk-o.wrong{background:var(--bad-soft);border-color:var(--bad)}
 .lnav{display:flex;gap:8px;justify-content:space-between;flex-wrap:wrap;margin-top:18px}
 @media (max-width:560px){.lbody{padding:14px}.timeline div{grid-template-columns:70px 1fr}}
+.login[hidden]{display:none}
 .login{position:fixed;inset:0;z-index:50;background:var(--bg);display:grid;place-items:center;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));overflow:auto}
 .login-box{width:100%;max-width:360px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:28px 24px;display:flex;flex-direction:column;gap:8px;text-align:center}
 .login-box img{margin:0 auto 4px}
@@ -162,6 +163,13 @@ fieldset.q legend{font-weight:600;padding:0;float:left;width:100%;margin-bottom:
 .login-box .btn{margin-top:10px}
 .login-err{color:var(--bad);font-size:14px;min-height:1.2em;margin:4px 0 0}
 .logout{font:inherit;font-size:13px;background:none;border:1px solid var(--line);border-radius:8px;padding:4px 10px;color:var(--muted);cursor:pointer;margin-top:4px}
+.steps{display:flex;flex-direction:column;gap:8px;margin:10px 0;counter-reset:st}
+.steps div{border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:10px;padding:10px 14px;display:flex;flex-direction:column;gap:2px}
+.steps span{font-size:14px;color:var(--muted)}
+.dialog{border:1px solid var(--line);border-radius:10px;padding:10px 14px;margin:12px 0;background:var(--bg)}
+.dl{margin:6px 0;padding:8px 12px;border-radius:10px;max-width:85%}
+.dl.nv{background:var(--gold-soft);margin-left:auto}
+.dl.kh{background:var(--surface);border:1px solid var(--line)}
 @media (max-width:560px){.lesson .body{padding-left:16px}.who{display:none}.score{font-size:32px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -203,39 +211,12 @@ fieldset.q legend{font-weight:600;padding:0;float:left;width:100%;margin-bottom:
 </main>
 
 <script src="day1.js"></script>
+<script src="day2.js"></script>
 <script>
 /* ---------------- CONTENT ---------------- */
 const DAYS = [
  {id:'d1', name:'Ngày 1', title:'Công ty, hãng, sản phẩm, chính sách', lessons:DAY1},
- {id:'d2', name:'Ngày 2', title:'Khách hàng bán buôn & kỹ năng gọi điện', lessons:[
-  {t:'4 nhóm khách hàng', time:'9:30–10:30', h:`
-   <div class="tbl"><table><tr><th>Nhóm</th><th>Quan tâm</th><th>Phải làm</th><th>Mục tiêu</th></tr>
-   <tr><td>Bán buôn</td><td>Giá, chiết khấu, công nợ, thời gian giao</td><td>Báo giá sớm, gợi ý lô lớn khi có KM, báo trước mã tăng giá</td><td>Đầu mối xả hàng tồn, nhập đều</td></tr>
-   <tr><td>Bán lẻ lớn</td><td>Thương hiệu, bảo hành, trưng bày</td><td>POSM, gói trưng bày, giao đều</td><td>Gương mặt thương hiệu khu vực</td></tr>
-   <tr><td>Bán lẻ vừa</td><td>Giá, hàng dễ bán</td><td>Báo giá gọn, combo, nhắc mua định kỳ</td><td>Mua ít nhưng đều tay</td></tr>
-   <tr><td>Thợ</td><td>Giá tốt, giao nhanh</td><td>Giao cực nhanh, báo giá ngắn đúng mã</td><td>Giữ thợ = giữ khách cuối</td></tr></table></div>
-   <p class="note">Với thợ, tránh trả lời chậm và nói vòng vo. Đơn dự án lớn của nhà thầu: chuyển trưởng nhóm.</p>`},
-  {t:'Nghiên cứu thị trường', time:'10:30–11:15', h:`
-   <p>Với mỗi đại lý phải trả lời được 3 câu:</p>
-   <ol><li>Họ đang bán thương hiệu nào tốt nhất?</li><li>Họ đang thiếu mặt hàng nào?</li><li>Nếu giảm giá hoặc hỗ trợ, họ có thể nhập ngay bao nhiêu?</li></ol>
-   <p><b>Điểm mạnh lan tỏa:</b> chọn 1–2 "điểm bán tốt" mỗi khu vực, đẩy hàng và chăm sóc mạnh, rồi dùng kết quả đó để thuyết phục đại lý lân cận.</p>`},
-  {t:'4 Xin – 4 Luôn', time:'11:15–13:45', h:`
-   <p>Khách quyết định nghe tiếp hay không trong 10 giây đầu.</p>
-   <ul><li><b>Xin chào</b> – cười khi cầm máy, giới thiệu tên, công ty, mục đích.</li>
-   <li><b>Xin phép</b> – "Anh/chị có tiện nghe em tư vấn 1–2 phút không ạ?"</li>
-   <li><b>Xin cảm ơn</b> – dù khách mua hay từ chối.</li>
-   <li><b>Xin lỗi</b> – kèm cam kết khắc phục, không đổ lỗi.</li>
-   <li><b>Luôn tươi cười · Luôn nhẹ nhàng · Luôn thấu hiểu · Luôn giúp đỡ.</b> Khách bức xúc: hạ âm lượng, nói chậm, không tranh luận.</li></ul>`},
-  {t:'Kịch bản gọi đại lý 6 bước', time:'13:45–15:00', h:`
-   <ol><li>Chào – xin phép</li><li>Lý do gọi có giá trị (KM mới, mã sắp tăng giá, hàng về, chuẩn bị mùa)</li><li>Hỏi tình hình: bán chạy, tồn kho, đang thiếu</li><li>Đề xuất theo lô: 1–2 mã, số lượng cụ thể, giao 24–48 giờ</li><li>Báo giá đúng chính sách, kèm KM</li><li>Chốt hoặc hẹn giờ gọi lại cụ thể</li></ol>
-   <div class="say">"Em chào anh Tuấn, em là Lan bên Nhà phân phối Hương Anh – Việt Tuấn. Anh có tiện nghe em 2 phút không ạ?"</div>`},
-  {t:'Xử lý từ chối & chốt đơn', time:'15:00–16:00', h:`
-   <p>Lắng nghe hết → "Dạ em hiểu ạ" → Hỏi lý do thật → Trả lời bằng lợi ích hoặc bằng chứng.</p>
-   <ul><li>"Bên kia rẻ hơn" → xin mã và điều kiện để so cùng mã; nhấn giao nhanh, chính hãng, công nợ. Không chê đối thủ, không tự hạ giá.</li>
-   <li>"Cho công nợ thì lấy" → không hứa, báo trưởng phòng xét hạn mức, gọi lại trong ngày.</li>
-   <li>"Kho còn hàng" → hỏi mã sắp hết, gợi ý lấy ít mã thiếu.</li></ul>
-   <p>Dấu hiệu sắp nhập: hỏi khi nào giao, hỏi công nợ, hỏi chiết khấu khi lấy thêm → chốt ngay.</p>`}
- ]},
+ {id:'d2', name:'Ngày 2', title:'Khách hàng bán buôn & kỹ năng gọi điện', lessons:DAY2},
  {id:'d3', name:'Ngày 3', title:'Bravo, theo dõi đơn, thu tiền, chăm sóc', lessons:[
   {t:'Lên đơn trên Bravo', time:'9:00–10:30', h:`
    <ol><li>Đăng nhập: tên, mật khẩu, ô thứ 3 điền <b>B01</b>.</li>
@@ -294,7 +275,15 @@ const Q = {
   ['Đại lý nói "Bên kia báo rẻ hơn". Câu trả lời đúng?',['"Bên đó hàng kém lắm anh"','"Em giảm cho anh luôn"','"Anh cho em xin mã và điều kiện bên đó để em so cùng mã ạ"','"Vậy anh lấy bên đó đi"'],2,'So cùng mã, cùng điều kiện; nhấn chính hãng, giao nhanh, công nợ. Không chê đối thủ.'],
   ['Dấu hiệu đại lý sắp nhập hàng là?',['Hỏi khi nào giao, hỏi công nợ, hỏi chiết khấu khi lấy thêm','Không nghe máy','Nói "để anh xem"','Hỏi tên nhân viên'],0,'Gặp dấu hiệu là chốt ngay.'],
   ['Đại lý đòi công nợ mới chịu lấy hàng. NVBH nên?',['Đồng ý ngay','Không hứa; báo trưởng phòng xét hạn mức và gọi lại trong ngày','Từ chối thẳng','Bảo khách chuyển khoản trước'],1,'Hạn mức công nợ dành cho đối tác chiến lược, do công ty xét.'],
-  ['Lý do gọi nào có giá trị nhất với đại lý?',['"Anh có lấy gì không ạ?"','"Mẫu điều hòa này sắp tăng giá, em báo anh nhập trước mùa"','"Em gọi hỏi thăm thôi"','"Sếp em bắt gọi"'],1,'Gọi phải mang thông tin có lợi cho đại lý: KM, tăng giá, hàng về, chuẩn bị mùa.']
+  ['Lý do gọi nào có giá trị nhất với đại lý?',['"Anh có lấy gì không ạ?"','"Mẫu điều hòa này sắp tăng giá, em báo anh nhập trước mùa"','"Em gọi hỏi thăm thôi"','"Sếp em bắt gọi"'],1,'Gọi phải mang thông tin có lợi cho đại lý: KM, tăng giá, hàng về, chuẩn bị mùa.'],
+  ['Đại lý hỏi "Có sẵn mã này không, chiều nay giao được không?" thường thuộc nhóm nào?',['Đại lý thợ','Đại lý bán lẻ lớn','Nhà thầu dự án','Đại lý bán buôn'],0,'Thợ cần hàng nhanh theo công trình.'],
+  ['Công thức riêng cho đại lý bán lẻ vừa về chăm sóc là gì?',['Theo kế hoạch','Nhắc mua, chia nhỏ đơn','Trưng bày, quảng bá','Cá nhân hóa'],1,'Lẻ vừa: giao đúng giờ, nhắc mua, chia nhỏ đơn, tập bán đều tay.'],
+  ['Tiêu chí của "điểm bán tốt" KHÔNG gồm điều nào?',['Bán đều, xoay vòng nhanh','Tin tưởng thương hiệu Việt Tuấn','Sẵn sàng thử mẫu mới','Đại lý ở xa kho nhất'],3,'3 tiêu chí: bán đều, tin Việt Tuấn, sẵn sàng thử mẫu mới.'],
+  ['Sau lời chào, câu "xin phép" nên hỏi gì?',['Khách có tiện nghe 1–2 phút không','Khách có tiền không','Khách mua hãng nào'],0,'Trao quyền cho khách quyết định.'],
+  ['Trong L-C-H-T, chữ "C" nghĩa là?',['Chốt đơn','Chia sẻ – "Dạ em hiểu ạ"','Cảm ơn','Chê đối thủ'],1,'Lắng nghe – Chia sẻ – Hỏi lại – Trả lời.'],
+  ['Cách chốt nào chỉ được dùng sau khi đã kiểm tra tồn kho?',['Chốt lựa chọn','Chốt giả định','Chốt giữ hàng','Chốt thời hạn'],2,'"Em giữ cho anh 5 bộ" – phải hỏi thủ kho trước.'],
+  ['Tiêu chí nhiều điểm nhất trong phiếu chấm cuộc gọi?',['Báo giá (10)','Hỏi tình hình (20)','4 Luôn (5)','Chốt (10)'],1,'Hỏi tình hình: bán chạy, tồn kho, đang thiếu – 20 điểm.'],
+  ['Sau khi đại lý đồng ý đơn qua điện thoại, việc đầu tiên nên làm?',['Gửi Zalo xác nhận mã, số lượng, giá, ngày giao','Chờ đại lý nhắn','Gọi lại hỏi lần nữa','Báo kế toán xuất hóa đơn'],0,'Xác nhận bằng văn bản tránh nhầm lẫn, rồi lên đơn Bravo.']
  ],
  d3:[
   ['Khi đăng nhập Bravo, ô thứ 3 điền gì?',['Mã nhân viên','B01','Số điện thoại','Để trống'],1,'Ô thứ 3 điền B01 rồi ấn Đăng nhập.'],
@@ -313,7 +302,7 @@ const Q = {
 };
 const QUIZZES = [
  {id:'d1', name:'Kiểm tra Ngày 1', desc:'Công ty, hãng, sản phẩm, chính sách', pool:()=>Q.d1, n:15, pass:80},
- {id:'d2', name:'Kiểm tra Ngày 2', desc:'Khách hàng, 4 Xin – 4 Luôn, từ chối, chốt đơn', pool:()=>Q.d2, n:12, pass:80},
+ {id:'d2', name:'Kiểm tra Ngày 2', desc:'Khách hàng, 4 Xin – 4 Luôn, từ chối, chốt đơn', pool:()=>Q.d2, n:15, pass:80},
  {id:'d3', name:'Kiểm tra Ngày 3', desc:'Bravo, theo dõi đơn, báo có, chăm sóc', pool:()=>Q.d3, n:12, pass:80},
  {id:'final', name:'Bài cuối khóa', desc:'20 câu ngẫu nhiên từ cả 3 ngày', pool:()=>[...Q.d1,...Q.d2,...Q.d3], n:20, pass:80}
 ];
@@ -377,7 +366,7 @@ function renderLearn(){
         <span class="lc-main"><span class="lc-t">${l.t}</span><span class="lc-m">${l.time}${l.check&&l.check.length?` · ${l.check.length} câu tự kiểm tra`:''}</span></span>
         ${isDone(d.id,i)?'<span class="pill ok">Đã học</span>':'<span class="pill none">Chưa học</span>'}
       </button>`).join('')}</div>
-    ${d.id!=='d1'?'<p class="note" style="margin-top:12px">Nội dung chi tiết của ngày này sẽ được bổ sung.</p>':''}
+    ${d.id==='d3'?'<p class="note" style="margin-top:12px">Nội dung chi tiết của ngày này sẽ được bổ sung.</p>':''}
     <p style="margin-top:16px"><button class="btn" id="goQuiz">Làm bài kiểm tra ${d.name}</button></p>`;
   document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{activeDay=b.dataset.day;openLesson=null;renderLearn();});
   document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{openLesson=+b.dataset.open;renderLearn();window.scrollTo(0,0);});
@@ -548,7 +537,7 @@ async function renderAdmin(){
   const passed = allResults.filter(r=>r.quizzes&&r.quizzes.final&&r.quizzes.final.best>=80).length;
   el.innerHTML = `<h2>Quản lý điểm học viên</h2>
    <p class="lead">${allResults.length} học viên đã làm bài · ${passed} người đạt bài cuối khóa. Bảng tự cập nhật khi học viên nộp bài.</p>
-   <div class="admin-tbl">${allResults.length?`<table><thead><tr><th>Học viên</th>${QUIZZES.map(q=>`<th>${q.id==='final'?'Cuối khóa':q.name.replace('Kiểm tra ','')}</th>`).join('')}<th>Đã học N1</th><th>Cập nhật</th></tr></thead><tbody id="arows"></tbody></table>`:'<p class="empty">Chưa có học viên nào nộp bài. Gửi link app cho học viên (quyền Contributor) để bắt đầu.</p>'}</div>`;
+   <div class="admin-tbl">${allResults.length?`<table><thead><tr><th>Học viên</th>${QUIZZES.map(q=>`<th>${q.id==='final'?'Cuối khóa':q.name.replace('Kiểm tra ','')}</th>`).join('')}<th>Đã học</th><th>Cập nhật</th></tr></thead><tbody id="arows"></tbody></table>`:'<p class="empty">Chưa có học viên nào nộp bài. Gửi link app cho học viên (quyền Contributor) để bắt đầu.</p>'}</div>`;
   const tb=$('#arows'); if(!tb) return;
   allResults.slice().sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0)).forEach(r=>{
     const tr=document.createElement('tr'); const p=ps[r.uid]||{};
@@ -556,7 +545,7 @@ async function renderAdmin(){
     if(p.avatarUrl){const img=document.createElement('img');img.src=p.avatarUrl;img.alt='';wrap.appendChild(img);}
     const nm=document.createElement('span'); nm.textContent=p.name||'Học viên'; wrap.appendChild(nm); td.appendChild(wrap); tr.appendChild(td);
     QUIZZES.forEach(q=>{const c=document.createElement('td'); const rec=r.quizzes&&r.quizzes[q.id]; c.innerHTML=passPill(rec,q.pass)+(rec?` <span class="note">${rec.attempts} lần</span>`:''); tr.appendChild(c);});
-    const pg=document.createElement('td'); const nd=r.progress?Object.keys(r.progress).filter(k=>k.startsWith('d1-')).length:0; pg.textContent=nd+'/'+DAYS[0].lessons.length; tr.appendChild(pg);
+    const pg=document.createElement('td'); const cnt=d=>r.progress?Object.keys(r.progress).filter(k=>k.startsWith(d+'-')).length:0; pg.textContent='N1 '+cnt('d1')+'/'+DAYS[0].lessons.length+' · N2 '+cnt('d2')+'/'+DAYS[1].lessons.length; tr.appendChild(pg);
     const t=document.createElement('td'); t.textContent=fmtTime(r.updatedAt); tr.appendChild(t);
     tb.appendChild(tr);
   });
