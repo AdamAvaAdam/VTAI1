@@ -187,6 +187,11 @@ fieldset.q legend{font-weight:600;padding:0;float:left;width:100%;margin-bottom:
 .cert-msg{margin:0;font-weight:600}
 .cert .admin-tbl table{min-width:0}
 .verdict-demo{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}
+.ltimer{position:sticky;top:calc(env(safe-area-inset-top,0px) + 92px);z-index:3;background:var(--surface);border:1px solid var(--gold);border-radius:10px;padding:8px 12px;margin-bottom:12px}
+.ltimer .ltimer-text{font-size:13.5px;font-weight:600;margin-bottom:6px}
+.ltimer.done{border-color:var(--good)}
+.ltimer.done .progress span{background:var(--good)}
+.lcard.locked{opacity:.55;cursor:not-allowed}
 @media (max-width:560px){.lesson .body{padding-left:16px}.who{display:none}.score{font-size:32px}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
@@ -242,7 +247,7 @@ const Q = {
  d1:[
   ['Việt Tuấn là đối tác của khoảng bao nhiêu đại lý, cửa hàng?',['Khoảng 500','Khoảng 1.500','Hơn 3.500, trên 28 tỉnh phía Bắc','Hơn 10.000 trên cả nước'],2,'Hồ sơ năng lực: hơn 3.500 đại lý, cửa hàng trải dài 28 tỉnh thành phía Bắc.'],
   ['Tổng kho của công ty có diện tích bao nhiêu?',['Khoảng 2.000 m²','Hơn 18.000 m²','Khoảng 5.000 m²','Hơn 50.000 m²'],1,'Tổng kho hơn 18.000 m² cùng hơn 80 xe tải giao hàng.'],
-  ['Việt Tuấn là nhà phân phối độc quyền miền Bắc của hãng nào (tủ lạnh, máy giặt)?',['Sharp','Hitachi','Toshiba','Electrolux'],2,'Toshiba: nhà phân phối độc quyền tại miền Bắc.'],
+  ['Việt Tuấn phân phối độc quyền miền Bắc sản phẩm nào?',['Tủ lạnh Toshiba','Máy giặt Sharp','Điều hòa Aufit','Tủ lạnh Hitachi'],2,'Việt Tuấn chỉ độc quyền miền Bắc điều hòa Aufit. Các hãng khác là phân phối chính thức.'],
   ['Aufit là hãng gì và Việt Tuấn giữ vai trò gì?',['Tủ đông, đại lý cấp 2','Điều hòa, NPP độc quyền miền Bắc','Máy giặt, NPP toàn quốc','Quạt, đại lý bán lẻ'],1,'Aufit: điều hòa Inverter, Việt Tuấn là NPP độc quyền miền Bắc.'],
   ['Đơn hàng được áp dụng giá buôn khi nào?',['Từ 5 triệu đồng','Từ 20 triệu đồng hoặc từ 3 sản phẩm cùng loại','Từ 50 triệu đồng','Chỉ khi là đại lý cấp 1'],1,'Chính sách bán buôn: đơn từ 20 triệu hoặc từ 03 sản phẩm cùng loại.'],
   ['Thời gian giao hàng cam kết là bao lâu?',['Nội thành 24 giờ, ngoại tỉnh 48 giờ','Nội thành 3 ngày, ngoại tỉnh 1 tuần','Trong ngày cho mọi nơi','Tùy đội xe sắp xếp'],0,'Nội thành 24 giờ – ngoại tỉnh 48 giờ, dự án gấp 24 giờ từ khi xác nhận đơn.'],
@@ -251,7 +256,7 @@ const Q = {
   ['Thứ tự đúng của quy trình bán hàng là?',['Lên đơn → Giao hàng → Xuất hóa đơn → Thủ kho xuất','Tư vấn → Lên đơn → Thủ kho xuất hàng → Xuất hóa đơn → Giao hàng','Giao hàng → Thu tiền → Lên đơn','Tư vấn → Giao hàng → Lên đơn'],1,'Mỗi bước có xác nhận điện tử và người chịu trách nhiệm.'],
   ['Khi tiếp nhận bảo hành, NVBH cần lấy thông tin gì?',['Chỉ cần tên khách','Mã sản phẩm, mô tả lỗi, thời gian mua, ảnh/video lỗi','Số tài khoản ngân hàng của khách','Không cần, chuyển thẳng cho hãng'],1,'Bước 1 của quy trình bảo hành – đổi trả.'],
   ['Đại lý xin giảm thêm ngoài bảng giá để chốt nhanh. NVBH làm gì?',['Tự giảm cho kịp','Không tự giảm ngoài chính sách; báo quản lý nếu cần xét','Từ chối và cúp máy','Hứa giảm lần sau'],1,'Cam kết bảo vệ giá: không bán phá giá, không tự giảm ngoài chính sách.'],
-  ['Chuyên viên trực tiếp nhận yêu cầu của đối tác trong khung giờ nào?',['8:00–17:00 thứ 2–thứ 6','8:00–21:00 hằng ngày, kể cả T7 và CN','24/7','9:00–18:00 trừ CN'],1,'Quy trình JIT bước 1: trực 08:00–21:00 hằng ngày.'],
+  ['Nhân viên bán hàng có trách nhiệm hỗ trợ khách trong khung giờ nào?',['8:00–17:00 thứ 2–thứ 6','8:00–21:00 hằng ngày','24/7, kể cả T7, CN, ngày lễ','9:00–18:00 trừ CN'],2,'Nhân viên có trách nhiệm hỗ trợ khách 24/7.'],
   ['Đại lý hỏi điều hòa 2 chiều 12.000 BTU của Daikin. Mã nào đúng?',['FTKB25ZVMV','FTHF35XVMV','FTHF50VAVMV','FCFC50DVM'],1,'FTHF = 2 chiều; 35 ≈ 12.000 BTU.'],
   ['Điều hòa Aufit 2 HP (AFW18FHA4DI-5VN) có điểm bán nổi bật nào?',['Bảo hành máy nén 5 năm, nhãn năng lượng 5 sao','Giấu trần','Chỉ có 1 chiều 9.000 BTU','Nhập khẩu Nhật Bản'],0,'Theo catalogue: 5 sao năng lượng, Ion Plasma, bảo hành máy nén 5 năm.'],
   ['Gia đình 2–3 người cần tủ lạnh. Dung tích phù hợp?',['Khoảng 180–200 lít','Khoảng 500 lít','Khoảng 670 lít','Tủ đông 290 lít'],0,'Ví dụ Sharp SJ-X215V 197 L, Toshiba GR-RT236WE 182 L.'],
@@ -341,47 +346,60 @@ function fmtTime(ms){if(!ms)return '—';const d=new Date(ms);return d.toLocaleD
 
 /* ---------------- TABS ---------------- */
 function showTab(name){
+  if(name!=='learn') stopTimer();
   document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===name));
   ['learn','quiz','mine','admin'].forEach(id=>$('#'+id).hidden = id!==name);
   try{localStorage.setItem('vt-tab',name)}catch(e){}
   if(name==='quiz' && (!current || current.done)) renderQuizList();
   if(name==='mine') renderMine();
+  if(name==='learn') renderLearn();
   if(name==='admin') renderAdmin();
   window.scrollTo(0,0);
 }
 document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
 
 /* ---------------- LESSONS ---------------- */
+/* Học theo trang: mỗi trang có thanh chạy giờ, chạy hết mới sang trang sau; học hết các trang của ngày mới mở bài kiểm tra ngày đó */
+const LONG_SECONDS = 60, SHORT_SECONDS = 30, LONG_CHARS = 1500;
 let openLesson = null; // index in active day, or null for list
+let lessonTimer = null;
+function stopTimer(){ if(lessonTimer){ clearInterval(lessonTimer); lessonTimer=null; } }
 function lessonKey(day,i){ return day+'-'+(i+1); }
 function isDone(day,i){ return !!(myDoc && myDoc.progress && myDoc.progress[lessonKey(day,i)]); }
 function dayDone(day){ const d=DAYS.find(x=>x.id===day); return d.lessons.filter((l,i)=>isDone(day,i)).length; }
+function dayComplete(day){ const d=DAYS.find(x=>x.id===day); return dayDone(day)===d.lessons.length; }
+function lessonOpen(day,i){ return i===0 || isDone(day,i-1); }
+function lessonSeconds(l){ const txt=String(l.html||l.h||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' '); return txt.length>LONG_CHARS?LONG_SECONDS:SHORT_SECONDS; }
 function renderLearn(){
+  stopTimer();
   const d = DAYS.find(x=>x.id===activeDay);
   if(openLesson!==null) return renderLesson(d, openLesson);
-  const done = dayDone(d.id);
+  const done = dayDone(d.id), all = d.lessons.length, complete = done===all;
   $('#learn').innerHTML = `
     <h2>Bài học</h2>
-    <p class="lead">Học lần lượt từng bài theo giờ trên lớp. Mỗi bài có mục tiêu, nội dung kèm ảnh catalogue và slide, câu nói mẫu với đại lý và phần tự kiểm tra. Slide gốc ở <a href="https://adamavaadam.github.io/VTAI1/courses.html" target="_blank" rel="noopener">Kho thông tin Việt Tuấn</a>.</p>
-    <div class="days">${DAYS.map(x=>`<button class="chip" aria-pressed="${x.id===activeDay}" data-day="${x.id}">${x.name}: ${x.title}</button>`).join('')}</div>
-    <div class="dayhead"><div><b>${d.name}</b> · ${d.lessons.length} bài · 9:00–18:00</div><div class="note">Đã học ${done}/${d.lessons.length}</div></div>
-    <div class="progress" style="margin-bottom:14px"><span style="width:${done/d.lessons.length*100}%"></span></div>
-    <div class="lessonlist">${d.lessons.map((l,i)=>`
-      <button class="lcard" data-open="${i}">
+    <p class="lead">Học lần lượt từng trang. Mỗi trang có thanh chạy giờ (khoảng 1 phút với trang nhiều nội dung, 30 giây với trang ít nội dung). Thanh chạy hết mới sang được trang sau. Học hết các trang của ngày mới mở bài kiểm tra của ngày đó.</p>
+    <div class="days">${DAYS.map(x=>`<button class="chip" aria-pressed="${x.id===activeDay}" data-day="${x.id}">${x.name}: ${x.title} · ${dayDone(x.id)}/${x.lessons.length}</button>`).join('')}</div>
+    <div class="dayhead"><div><b>${d.name}</b> · ${all} trang · 9:00–18:00</div><div class="note">Đã học ${done}/${all}</div></div>
+    <div class="progress" style="margin-bottom:14px"><span style="width:${done/all*100}%"></span></div>
+    <div class="lessonlist">${d.lessons.map((l,i)=>{const open=lessonOpen(d.id,i), dn=isDone(d.id,i); return `
+      <button class="lcard ${open?'':'locked'}" data-open="${i}" ${open?'':'disabled'}>
         <span class="num">${String(i+1).padStart(2,'0')}</span>
-        <span class="lc-main"><span class="lc-t">${l.t}</span><span class="lc-m">${l.time}${l.check&&l.check.length?` · ${l.check.length} câu tự kiểm tra`:''}</span></span>
-        ${isDone(d.id,i)?'<span class="pill ok">Đã học</span>':'<span class="pill none">Chưa học</span>'}
-      </button>`).join('')}</div>
-    <p style="margin-top:16px"><button class="btn" id="goQuiz">Làm bài kiểm tra ${d.name}</button></p>`;
+        <span class="lc-main"><span class="lc-t">${l.t}</span><span class="lc-m">${l.time} · ${lessonSeconds(l)===LONG_SECONDS?'khoảng 1 phút':'30 giây'}</span></span>
+        ${dn?'<span class="pill ok">Đã học</span>':open?'<span class="pill none">Học tiếp</span>':'<span class="pill none">Chưa mở</span>'}
+      </button>`}).join('')}</div>
+    <p style="margin-top:16px">${complete?`<button class="btn" id="goQuiz">Làm bài kiểm tra ${d.name}</button>`:`<button class="btn" disabled>Học hết ${all} trang để mở bài kiểm tra (còn ${all-done})</button>`}</p>`;
   document.querySelectorAll('[data-day]').forEach(b=>b.onclick=()=>{activeDay=b.dataset.day;openLesson=null;renderLearn();});
   document.querySelectorAll('[data-open]').forEach(b=>b.onclick=()=>{openLesson=+b.dataset.open;renderLearn();window.scrollTo(0,0);});
-  $('#goQuiz').onclick=()=>{showTab('quiz');startQuiz(activeDay);};
+  if($('#goQuiz')) $('#goQuiz').onclick=()=>{showTab('quiz');startQuiz(activeDay);};
 }
 function renderLesson(d,i){
+  if(!lessonOpen(d.id,i)){ openLesson=null; return renderLearn(); }
   const l=d.lessons[i]; const body=l.html||l.h; const checks=l.check||[];
+  const need=lessonSeconds(l); const last=i===d.lessons.length-1;
   $('#learn').innerHTML = `
-    <p><button class="btn ghost" id="toList">← ${d.name}: danh sách bài</button></p>
-    <div class="lhead"><span class="num big">${String(i+1).padStart(2,'0')}</span><div><div class="note">${d.name} · ${l.time}</div><h2>${l.t}</h2></div></div>
+    <p><button class="btn ghost" id="toList">← ${d.name}: danh sách trang</button></p>
+    <div class="lhead"><span class="num big">${String(i+1).padStart(2,'0')}</span><div><div class="note">${d.name} · Trang ${i+1}/${d.lessons.length} · ${l.time}</div><h2>${l.t}</h2></div></div>
+    <div class="ltimer" id="ltimer"><div class="ltimer-text" id="ltimerText"></div><div class="progress"><span id="ltimerBar" style="width:0%"></span></div></div>
     ${l.goal&&l.goal.length?`<div class="goal"><div class="keep-h">Mục tiêu bài học</div><ul>${l.goal.map(g=>`<li>${g}</li>`).join('')}</ul></div>`:''}
     <article class="lbody">${body}</article>
     ${checks.length?`<section class="checks"><h3>Tự kiểm tra</h3>${checks.map((c,ci)=>`
@@ -389,39 +407,46 @@ function renderLesson(d,i){
       ${c[1].map((o,oi)=>`<button class="chk-o" data-oi="${oi}">${esc(o)}</button>`).join('')}
       <p class="explain" hidden></p></div>`).join('')}</section>`:''}
     <div class="lnav">
-      <button class="btn ghost" id="prevL" ${i===0?'disabled':''}>← Bài trước</button>
-      <button class="btn ${isDone(d.id,i)?'ghost':''}" id="doneL">${isDone(d.id,i)?'Đã học ✓':'Đánh dấu đã học'}</button>
-      <button class="btn ghost" id="nextL" ${i===d.lessons.length-1?'disabled':''}>Bài sau →</button>
+      <button class="btn ghost" id="prevL" ${i===0?'disabled':''}>← Trang trước</button>
+      ${last?`<button class="btn" id="nextL" disabled>Làm bài kiểm tra ${d.name} →</button>`:`<button class="btn" id="nextL" disabled>Trang sau →</button>`}
     </div>
     <p class="note" id="doneNote"></p>`;
   $('#toList').onclick=()=>{openLesson=null;renderLearn();window.scrollTo(0,0);};
   $('#prevL').onclick=()=>{openLesson=i-1;renderLearn();window.scrollTo(0,0);};
-  $('#nextL').onclick=()=>{openLesson=i+1;renderLearn();window.scrollTo(0,0);};
-  $('#doneL').onclick=()=>markDone(d.id,i);
+  $('#nextL').onclick=()=>{ if(last){ showTab('quiz'); startQuiz(d.id); } else { openLesson=i+1; renderLearn(); window.scrollTo(0,0);} };
   document.querySelectorAll('[data-go-quiz]').forEach(b=>b.onclick=()=>{showTab('quiz');startQuiz(b.dataset.goQuiz);});
   document.querySelectorAll('[data-go-tab]').forEach(b=>b.onclick=()=>showTab(b.dataset.goTab));
   document.querySelectorAll('.chk').forEach(box=>{
     const c=checks[+box.dataset.ci];
     box.querySelectorAll('.chk-o').forEach(btn=>btn.onclick=()=>{
       const oi=+btn.dataset.oi;
-      box.querySelectorAll('.chk-o').forEach((x,xi)=>{x.classList.remove('right','wrong'); if(xi===c[2]&&oi===c[2]) x.classList.add('right');});
-      if(oi===c[2]) btn.classList.add('right'); else btn.classList.add('wrong');
-      const ex=box.querySelector('.explain'); ex.hidden=false; ex.textContent=(oi===c[2]?'Đúng. ':'Chưa đúng, thử lại. ')+(oi===c[2]?c[3]:'');
+      box.querySelectorAll('.chk-o').forEach(x=>x.classList.remove('right','wrong'));
+      btn.classList.add(oi===c[2]?'right':'wrong');
+      const ex=box.querySelector('.explain'); ex.hidden=false; ex.textContent=oi===c[2]?'Đúng. '+c[3]:'Chưa đúng, đọc lại bài và thử lại.';
     });
   });
+  const finish=()=>{ $('#ltimerText').textContent='Đã học xong trang này'; $('#ltimerBar').style.width='100%'; $('#ltimer').classList.add('done'); $('#nextL').disabled=false; };
+  if(isDone(d.id,i)){ finish(); return; }
+  let elapsed=0; const tick=250;
+  const paint=()=>{ const left=Math.max(0,Math.ceil(need-elapsed)); $('#ltimerText').textContent=`Đang học: còn ${left} giây để mở trang sau`+(document.hidden?' (tạm dừng khi rời trang)':''); $('#ltimerBar').style.width=Math.min(100,elapsed/need*100)+'%'; };
+  paint();
+  lessonTimer=setInterval(()=>{
+    if(!$('#ltimer') || $('#learn').hidden || !$('#login').hidden){ return; }
+    if(document.hidden){ paint(); return; }
+    elapsed+=tick/1000; paint();
+    if(elapsed>=need){ stopTimer(); markDone(d.id,i).then(finish); }
+  },tick);
 }
 async function markDone(day,i){
-  const note=$('#doneNote');
   if(isDone(day,i)) return;
-  if(!db||!myId){
-    const base = myDoc ? JSON.parse(JSON.stringify(myDoc)) : {quizzes:{}};
-    base.progress=base.progress||{}; base.progress[lessonKey(day,i)]=Date.now(); base.updatedAt=Date.now(); myDoc=base; saveLocal(base); renderLearn(); return;
-  }
-  if(canSave===false){ note.textContent='Tiến độ chưa được lưu vì tài khoản chưa có quyền lưu (cần quyền Contributor).'; return; }
-  const base = myDoc ? JSON.parse(JSON.stringify(myDoc)) : {uid:myId, quizzes:{}};
-  base.uid=myId; base.progress=base.progress||{}; base.progress[lessonKey(day,i)]=Date.now(); base.updatedAt=Date.now();
-  try{ await db.doc('results/'+myId).set(base); myDoc=base; renderLearn(); }
-  catch(e){ if(e&&e.code==='invalid_argument') canSave=false; note.textContent='Chưa lưu được tiến độ, thử lại sau.'; }
+  const base = myDoc ? JSON.parse(JSON.stringify(myDoc)) : {quizzes:{}};
+  base.progress=base.progress||{}; base.progress[lessonKey(day,i)]=Date.now(); base.updatedAt=Date.now();
+  myDoc=base; /* luôn ghi trong bộ nhớ để học viên đi tiếp được */
+  if(!db||!myId){ saveLocal(base); return; }
+  if(canSave===false){ const n=$('#doneNote'); if(n) n.textContent='Tiến độ chưa được lưu lên hệ thống vì tài khoản chỉ có quyền xem.'; return; }
+  base.uid=myId;
+  try{ await db.doc('results/'+myId).set(base); }
+  catch(e){ if(e&&e.code==='invalid_argument') canSave=false; const n=$('#doneNote'); if(n) n.textContent='Chưa lưu được tiến độ lên hệ thống.'; }
 }
 
 /* ---------------- QUIZ ---------------- */
@@ -445,13 +470,13 @@ function renderQuizList(){
   current=null;
   $('#quiz').innerHTML = `
     <h2>Kiểm tra</h2>
-    <p class="lead">Bài Ngày 1–3 được làm lại để luyện, tính điểm cao nhất. Bài cuối khóa chỉ làm 1 lần. Tổng điểm = 20% Ngày 1 + 20% Ngày 2 + 20% Ngày 3 + 40% Cuối khóa. <b>Tổng từ ${PASS_TOTAL}% trở lên mới được nhận làm việc.</b></p>
+    <p class="lead">Mỗi bài kiểm tra ngày chỉ mở khi đã học hết các trang của ngày đó. Bài Ngày 1–3 được làm lại để luyện, tính điểm cao nhất. Bài cuối khóa chỉ làm 1 lần. Tổng điểm = 20% Ngày 1 + 20% Ngày 2 + 20% Ngày 3 + 40% Cuối khóa. <b>Tổng từ ${PASS_TOTAL}% trở lên mới được nhận làm việc.</b></p>
     ${saveBanner()}
     <div class="quizzes">${QUIZZES.map(q=>{const r=bestOf(q.id); const isFinal=q.id==='final';
-      const locked = isFinal && !daysDone(myDoc); const used = isFinal && r;
+      const dayLocked = !isFinal && !dayComplete(q.id); const locked = isFinal ? !daysDone(myDoc) : dayLocked; const used = isFinal && r;
       return `<div class="qcard ${isFinal?'final':''}"><h3>${q.name}</h3><div class="meta">${q.desc} · ${q.n} câu · trọng số ${WEIGHTS[q.id]}%</div>
       <div class="best">${passPill(r,q.pass,q.id)}${r&&!isFinal?` <span class="meta">· ${r.attempts} lần</span>`:''}</div>
-      ${used?'<button class="btn" disabled>Đã làm (chỉ 1 lần)</button>':locked?'<button class="btn" disabled>Mở khi làm xong 3 bài ngày</button>':`<button class="btn" data-start="${q.id}">${r?'Làm lại':'Bắt đầu'}</button>`}</div>`}).join('')}</div>`;
+      ${used?'<button class="btn" disabled>Đã làm (chỉ 1 lần)</button>':locked?(isFinal?'<button class="btn" disabled>Mở khi làm xong 3 bài ngày</button>':`<button class="btn" disabled>Học hết ${DAYS.find(x=>x.id===q.id).lessons.length} trang để mở (còn ${DAYS.find(x=>x.id===q.id).lessons.length-dayDone(q.id)})</button>`):`<button class="btn" data-start="${q.id}">${r?'Làm lại':'Bắt đầu'}</button>`}</div>`}).join('')}</div>`;
   document.querySelectorAll('[data-start]').forEach(b=>b.onclick=()=>startQuiz(b.dataset.start));
 }
 function saveBanner(){
@@ -460,6 +485,7 @@ function saveBanner(){
   return '';
 }
 function startQuiz(id){
+  if(id!=='final' && !dayComplete(id)){ renderQuizList(); return; }
   if(id==='final'){
     if(!daysDone(myDoc)){ renderQuizList(); return; }
     if(bestOf('final')){ renderQuizList(); return; }

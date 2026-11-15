@@ -23,7 +23,7 @@ const DAY1 = [
  <li>Đọc nội dung, bấm vào ảnh catalogue để xem to, đối chiếu với hàng thật nếu có.</li>
  <li>Đọc to phần <b>Nói với đại lý</b> – đây là câu bạn sẽ dùng khi gọi điện.</li>
  <li>Làm <b>Tự kiểm tra</b> cuối bài. Sai thì đọc lại đoạn liên quan.</li>
- <li>Bấm <b>Đánh dấu đã học</b> để quản lý theo dõi tiến độ.</li></ol>
+ <li>Mỗi trang có <b>thanh chạy giờ</b>: khoảng 1 phút với trang nhiều nội dung, 30 giây với trang ít nội dung. Thanh chạy hết mới sang được trang sau, rời khỏi trang thì thanh tạm dừng.</li><li>Học hết các trang của ngày thì bài kiểm tra của ngày đó mới mở.</li></ol>
  ${KEEP(['Khách của bạn là đại lý, cửa hàng, thợ, nhà thầu – họ mua để bán lại.','Họ cần: giá đúng chính sách, hàng sẵn, giao nhanh, công nợ rõ ràng.','Ra nghề: cuối khóa ≥ 80%, gọi nhập vai ≥ 70/100, gọi ≥ 10 đại lý thật.'])}`,
  check:[
   ['Khách hàng chính của nhân viên bán buôn Việt Tuấn là ai?',['Người tiêu dùng mua 1 chiếc dùng tại nhà','Đại lý, cửa hàng, thợ, nhà thầu mua để bán lại hoặc lắp công trình','Chỉ các siêu thị điện máy lớn'],1,'Bán buôn = bán cho người mua để bán lại hoặc lắp cho công trình.'],
@@ -80,7 +80,7 @@ const DAY1 = [
  <li><b>Vận hành tốc độ – chuẩn JIT</b> – kho vệ tinh + đội xe riêng, giao thần tốc, đại lý không phải ôm vốn tồn kho.</li>
  <li><b>Hệ sinh thái sản phẩm đa dạng</b> – Panasonic, Toshiba, Sharp, Hitachi, Daikin, Electrolux, Aufit… đủ mọi phân khúc.</li>
  <li><b>Hỗ trợ đối tác toàn diện</b> – hạn mức công nợ linh hoạt, đào tạo kỹ thuật, đồng hành marketing và trang trí điểm bán.</li></ol>
- ${SAY('Mẫu giới thiệu 60 giây','"Dạ em là Lan bên Nhà phân phối Hương Anh – Công ty Việt Tuấn ạ. Bên em làm điện máy từ năm 1993, hiện đang cung cấp hàng cho hơn 3.500 đại lý, cửa hàng ở 28 tỉnh phía Bắc. Bên em phân phối chính thức Panasonic, Toshiba, Sharp, Daikin, Hitachi, Electrolux, độc quyền miền Bắc Toshiba và điều hòa Aufit. Tổng kho hơn 18.000 m², hơn 80 xe tải nên nội thành giao trong 24 giờ, ngoại tỉnh 48 giờ, anh không cần ôm nhiều hàng. Em xin phép gửi anh hồ sơ hợp tác qua Zalo để anh tham khảo ạ."')}
+ ${SAY('Mẫu giới thiệu 60 giây','"Dạ em là Lan bên Nhà phân phối Hương Anh – Công ty Việt Tuấn ạ. Bên em làm điện máy từ năm 1993, hiện đang cung cấp hàng cho hơn 3.500 đại lý, cửa hàng ở 28 tỉnh phía Bắc. Bên em phân phối chính thức Panasonic, Toshiba, Sharp, Daikin, Hitachi, Electrolux, độc quyền miền Bắc điều hòa Aufit. Tổng kho hơn 18.000 m², hơn 80 xe tải nên nội thành giao trong 24 giờ, ngoại tỉnh 48 giờ, anh không cần ôm nhiều hàng. Em xin phép gửi anh hồ sơ hợp tác qua Zalo để anh tham khảo ạ."')}
  ${TASK('Mỗi người đứng lên giới thiệu công ty trong 60 giây, không nhìn giấy. Cả lớp chấm: có đủ năm thành lập, số đại lý, các hãng, tốc độ giao hàng không?')}
  ${KEEP(['Từ 1993, hơn 30 năm; MST 0101423629.','3.500+ đại lý, 28 tỉnh, kho 18.000+ m², 80+ xe.','4 lợi thế: uy tín · JIT giao nhanh · nhiều hãng · hỗ trợ công nợ, marketing.'])}`,
  check:[
@@ -97,7 +97,7 @@ const DAY1 = [
  <p>Ngành hàng cốt lõi của Việt Tuấn là <b>điện lạnh gia dụng</b>: thiết bị thiết yếu trong mỗi gia đình, nhà hàng, khách sạn, cửa hàng kinh doanh.</p>
  <div class="tbl"><table><tr><th>Hãng</th><th>Nhóm hàng chính</th><th>Vị thế của Việt Tuấn</th><th>Khi nói với đại lý</th></tr>
  <tr><td><b>Panasonic</b></td><td>Tủ lạnh, máy giặt, điều hòa, lọc khí, lọc nước</td><td>1 trong 2 nhà phân phối chính thức tại miền Bắc</td><td>Hàng Nhật, công nghệ Nanoe™ X, Econavi – dễ bán cho khách chuộng chất lượng</td></tr>
- <tr><td><b>Toshiba</b></td><td>Tủ lạnh, máy giặt, tủ đông, gia dụng</td><td><b>Nhà phân phối độc quyền tại miền Bắc</b></td><td>Lấy Toshiba ở miền Bắc là lấy từ nguồn độc quyền – giá và hàng ổn định</td></tr>
+ <tr><td><b>Toshiba</b></td><td>Tủ lạnh, máy giặt, tủ đông, gia dụng</td><td>Nhà phân phối chính thức, nhiều lần được vinh danh Đại lý xuất sắc</td><td>Hàng Nhật bền, nhiều mẫu tủ lạnh, máy giặt, tủ đông dễ bán</td></tr>
  <tr><td><b>Sharp</b></td><td>Tủ lạnh, máy giặt</td><td>NPP có doanh số cao nhất khu vực</td><td>Giá dễ chịu, phù hợp đại lý vừa và nhỏ</td></tr>
  <tr><td><b>Hitachi</b></td><td>Tủ lạnh cao cấp</td><td>Phân phối mạnh</td><td>Side by side, 6 cửa nhập Nhật – cho khách cao cấp</td></tr>
  <tr><td><b>Electrolux</b></td><td>Máy giặt cửa ngang, máy sấy</td><td>Tập trung máy giặt cửa ngang</td><td>Chuẩn Thụy Điển, máy sấy bơm nhiệt tiết kiệm điện</td></tr>
@@ -112,9 +112,9 @@ const DAY1 = [
   <div><b>Điều hòa</b><span>Treo tường cho nhà ở; âm trần, tủ đứng, VRV cho công trình.</span></div>
   <div><b>Tủ đông – tủ mát</b><span>Dòng dân dụng giá tốt, bền, nhiều dung tích.</span></div>
  </div>
- ${KEEP(['Độc quyền miền Bắc: <b>Toshiba</b> và <b>Aufit</b>.','Daikin: doanh số lớn nhất miền Bắc. Sharp: doanh số cao nhất khu vực.','Panasonic: 1 trong 2 NPP chính thức miền Bắc.'])}`,
+ ${KEEP(['Độc quyền miền Bắc: <b>chỉ có điều hòa Aufit</b>.','Daikin: doanh số lớn nhất miền Bắc. Sharp: doanh số cao nhất khu vực.','Panasonic: 1 trong 2 NPP chính thức miền Bắc.'])}`,
  check:[
-  ['Việt Tuấn là nhà phân phối độc quyền miền Bắc của những hãng nào?',['Toshiba và Aufit','Panasonic và Sharp','Daikin và Hitachi'],0,'Toshiba (tủ lạnh, máy giặt) và Aufit (điều hòa).'],
+  ['Việt Tuấn là nhà phân phối độc quyền miền Bắc của hãng nào?',['Chỉ điều hòa Aufit','Toshiba và Aufit','Panasonic và Sharp'],0,'Việt Tuấn chỉ độc quyền miền Bắc điều hòa Aufit. Toshiba, Panasonic, Sharp… là phân phối chính thức.'],
   ['Đại lý cần tủ đông giá tốt để bán cho quán ăn. Gợi ý hãng nào trước?',['Hitachi','Sanaky hoặc Pinimax','Electrolux'],1,'Sanaky giá tốt, phổ biến; Pinimax dòng công nghiệp dàn đồng.']
  ]
 },
@@ -197,7 +197,7 @@ const DAY1 = [
  <li><b>NR-DZ601VGKV (550 L)</b> – Multi Door, ngăn lạnh 394 L, diệt khuẩn Blue Ag+, Econavi tự điều chỉnh theo thói quen.</li></ul>
  <p class="note">Từ khóa Panasonic: <b>Prime Fresh</b> (đông mềm -3°C, nấu ngay không rã đông), <b>Econavi</b> (cảm biến tiết kiệm), <b>Nanoe™ X / Ag+</b> (diệt khuẩn).</p>
 
- <h4>Toshiba – độc quyền miền Bắc</h4>
+ <h4>Toshiba</h4>
  ${IMG('cat-13.jpg','Catalogue – Tủ lạnh, tủ đông Toshiba')}
  <ul><li><b>GR-RC185CM-PMV(01)</b> – tủ đông 143 L, dàn đồng, <b>giữ đông đến 100 giờ khi mất điện</b>; hợp kinh doanh và gia đình.</li>
  <li><b>GR-RT236WE-PMV(68)</b> – 182 L, ngăn Cooling Zone -1°C, khử mùi PureBIO GO.</li>
@@ -344,7 +344,7 @@ const DAY1 = [
  <li><b>Hậu mãi:</b> hỗ trợ xử lý khiếu nại kho bãi và kỹ thuật lắp đặt.</li></ul>
  ${IMG('cat-22.jpg','Hồ sơ hợp tác – Quy trình vận hành chuẩn JIT')}
  <h4>Quy trình JIT – 4 bước</h4>
- <ol><li><b>Kết nối tức thì:</b> hotline 0243.8727213, chuyên viên trực 8:00–21:00 hằng ngày, kể cả Thứ 7, Chủ nhật.</li>
+ <ol><li><b>Kết nối tức thì:</b> hotline 0243.8727213, <b>nhân viên có trách nhiệm hỗ trợ khách 24/7</b>, kể cả Thứ 7, Chủ nhật, ngày lễ.</li>
  <li><b>Xử lý siêu tốc:</b> phản hồi báo giá trong 24 giờ; hàng chính hãng 100%, đủ chứng từ.</li>
  <li><b>Vận chuyển thần tốc:</b> giao 24–48 giờ tùy khu vực; dự án khẩn cấp đến nơi trong 24 giờ từ khi xác nhận đơn.</li>
  <li><b>Giám sát thông minh:</b> theo dõi đơn thời gian thực qua <b>APP HƯƠNG ANH</b>, từ lên đơn, xuất kho đến bàn giao và hóa đơn điện tử.</li></ol>
@@ -408,13 +408,13 @@ const DAY1 = [
  <h4>10 điều phải nhớ sau Ngày 1</h4>
  <ol><li>Việt Tuấn – Hương Anh: từ 1993, hơn 30 năm, MST 0101423629.</li>
  <li>3.500+ đại lý, 28 tỉnh phía Bắc, kho 18.000+ m², 80+ xe tải.</li>
- <li>Độc quyền miền Bắc: Toshiba, Aufit. Daikin doanh số lớn nhất miền Bắc.</li>
+ <li>Độc quyền miền Bắc: chỉ có điều hòa Aufit. Daikin doanh số lớn nhất miền Bắc.</li>
  <li>Công suất điều hòa: 9.000 / 12.000 / 18.000 / 24.000 BTU ↔ &lt;15 / 15–20 / 20–30 / 30–40 m².</li>
  <li>Daikin FTKB 1 chiều, FTHF 2 chiều; Panasonic XPU 1 chiều, YZ 2 chiều.</li>
  <li>Tủ lạnh chọn theo số người; tủ đông Toshiba giữ lạnh 100 giờ khi mất điện.</li>
  <li>Gọi đại lý nhập trước mùa 1–2 tháng.</li>
  <li>Giá buôn: ≥ 20 triệu hoặc ≥ 3 sản phẩm cùng loại; chiết khấu lũy tiến; không bán phá giá.</li>
- <li>Giao 24h nội thành / 48h ngoại tỉnh; báo giá trong 24h; trực 8:00–21:00 cả tuần.</li>
+ <li>Giao 24h nội thành / 48h ngoại tỉnh; báo giá trong 24h; nhân viên hỗ trợ khách 24/7.</li>
  <li>Tư vấn → Lên đơn → Thủ kho → Kế toán → Giao hàng; bảo hành 4 bước.</li></ol>
  <p><b>Bài tập về nhà:</b> đọc lại catalogue <i>Hồ sơ hợp tác</i>, chọn 5 mã mình thích nhất và tập nói điểm bán của từng mã trong 20 giây.</p>
  <p><button class="btn" data-go-quiz="d1">Làm bài kiểm tra Ngày 1</button></p>`,

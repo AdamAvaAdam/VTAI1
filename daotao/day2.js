@@ -9,11 +9,11 @@ const DAY2 = [
  <p>Hôm qua bạn đã biết <b>mình bán gì</b>. Hôm nay học <b>bán cho ai</b> và <b>bán thế nào</b>. Cuối ngày, mỗi người phải gọi trọn một cuộc nhập vai với "đại lý" (người dạy đóng vai) và đạt từ 70/100 điểm theo phiếu chấm.</p>
  <h4>Ôn nhanh 5 phút (người dạy gọi tên ngẫu nhiên)</h4>
  <ol><li>Giới thiệu công ty trong 30 giây.</li>
- <li>Hai hãng mà Việt Tuấn độc quyền miền Bắc?</li>
+ <li>Hãng nào Việt Tuấn phân phối độc quyền miền Bắc?</li>
  <li>Phòng 22 m², 2 chiều, khách muốn Daikin – mã nào?</li>
  <li>Điều kiện để được giá buôn?</li>
  <li>Đại lý hỏi xe giao đến đâu rồi – hỏi bộ phận nào?</li></ol>
- <p class="note">Đáp án: (2) Toshiba, Aufit · (3) FTHF50VAVMV 18.000 BTU · (4) đơn từ 20 triệu hoặc 3 sản phẩm cùng loại · (5) Đội xe.</p>
+ <p class="note">Đáp án: (2) chỉ điều hòa Aufit · (3) FTHF50VAVMV 18.000 BTU · (4) đơn từ 20 triệu hoặc 3 sản phẩm cùng loại · (5) Đội xe.</p>
  <h4>Lịch Ngày 2</h4>
  <div class="tbl"><table><tr><th>Giờ</th><th>Nội dung</th></tr>
  <tr><td>9:30–11:00</td><td>4 nhóm khách hàng và cách bán cho từng nhóm</td></tr>
